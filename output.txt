@@ -1,0 +1,78 @@
+PROCESSING COMMAND: create i1 queue
+PROCESSING COMMAND: create i1 queue
+ERROR: This name already exists!
+PROCESSING COMMAND: create i1 stack
+ERROR: This name already exists!
+PROCESSING COMMAND: create i2 stack
+PROCESSING COMMAND: create s99 stack
+PROCESSING COMMAND: push i1 50
+PROCESSING COMMAND: push i1 100
+PROCESSING COMMAND: push i2 -50
+PROCESSING COMMAND: push i2 100
+PROCESSING COMMAND: push s99 Hello
+PROCESSING COMMAND: push s99 World
+PROCESSING COMMAND: pop i2
+Value popped: 100
+PROCESSING COMMAND: pop s99
+Value popped: World
+PROCESSING COMMAND: push s99 planet
+PROCESSING COMMAND: pop i2
+Value popped: -50
+PROCESSING COMMAND: push i2 150
+PROCESSING COMMAND: pop s99
+Value popped: planet
+PROCESSING COMMAND: pop s99
+Value popped: Hello
+PROCESSING COMMAND: create d99 stack
+PROCESSING COMMAND: push d99 0.123
+PROCESSING COMMAND: push d99 -0.456
+PROCESSING COMMAND: pop d99
+Value popped: -0.456
+PROCESSING COMMAND: pop s99
+ERROR: This list is empty!
+PROCESSING COMMAND: push dHelloWorld 0.5
+ERROR: This name does not exist!
+PROCESSING COMMAND: pop dHelloWorld
+ERROR: This name does not exist!
+PROCESSING COMMAND: push i2 200
+PROCESSING COMMAND: pop i2
+Value popped: 200
+PROCESSING COMMAND: pop i1
+Value popped: 50
+PROCESSING COMMAND: push i1 150
+PROCESSING COMMAND: push i1 200
+PROCESSING COMMAND: pop i1
+Value popped: 100
+PROCESSING COMMAND: create dHelloWorld stack
+PROCESSING COMMAND: create dHelloPlanet queue
+PROCESSING COMMAND: push dHelloWorld 3.14
+PROCESSING COMMAND: pop i2
+Value popped: 150
+PROCESSING COMMAND: pop i2
+ERROR: This list is empty!
+PROCESSING COMMAND: push dHelloWorld 3.1415
+PROCESSING COMMAND: push dHelloPlanet -60.5
+PROCESSING COMMAND: push dHelloWorld -1
+PROCESSING COMMAND: pop dHelloWorld
+Value popped: -1
+PROCESSING COMMAND: pop dHelloPlanet
+Value popped: -60.5
+PROCESSING COMMAND: pop sR2D2
+ERROR: This name does not exist!
+PROCESSING COMMAND: create sR2D2 queue
+PROCESSING COMMAND: pop sR2D2
+ERROR: This list is empty!
+PROCESSING COMMAND: push sR2D2 123abcDEF
+PROCESSING COMMAND: push sR2D2 G4H5I6j7k8l9
+PROCESSING COMMAND: pop sR2D2
+Value popped: 123abcDEF
+PROCESSING COMMAND: pop sR2D2
+Value popped: G4H5I6j7k8l9
+PROCESSING COMMAND: pop sR2D2
+ERROR: This list is empty!
+PROCESSING COMMAND: pop dHelloWorld
+Value popped: 3.1415
+PROCESSING COMMAND: pop dHelloWorld
+Value popped: 3.14
+PROCESSING COMMAND: pop dHelloWorld
+ERROR: This list is empty!
