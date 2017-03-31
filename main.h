@@ -40,16 +40,17 @@ void processLine(list<SimpleList<T> *> &listSL, string words[], T value)
   {
     if (searchForSimpleList(listSL, words[1]) != NULL)
     {
-      outfile << endl << "ERROR: This name already exists!";
+      outfile << "ERROR: This name already exists!" << endl;
     }
     else
     {
-      if (words[2].substr(0, 5) == "stack")
+      //  inputLine was null-terminated, so so will words[2]
+      if (words[2] == "stack\0")
       {
         Stack<T>* ptrSL = new Stack<T>(words[1]);
         listSL.push_front(ptrSL);
       }
-      else if (words[2].substr(0, 5) == "queue")
+      else if (words[2] == "queue\0")
       {
         Queue<T>* ptrSL = new Queue<T>(words[1]);
         listSL.push_front(ptrSL);
@@ -61,7 +62,7 @@ void processLine(list<SimpleList<T> *> &listSL, string words[], T value)
     SimpleList<T> *ptr = searchForSimpleList(listSL, words[1]);
     if (ptr == NULL)
     {
-      outfile << endl << "ERROR: This name does not exist!";
+      outfile << "ERROR: This name does not exist!" << endl;
     }
     else
     {
@@ -73,15 +74,15 @@ void processLine(list<SimpleList<T> *> &listSL, string words[], T value)
     SimpleList<T> *ptr = searchForSimpleList(listSL, words[1]);
     if (ptr == NULL)
     {
-      outfile << endl << "ERROR: This name does not exist!";
+      outfile << "ERROR: This name does not exist!" << endl;
     }
     else if (ptr->isEmpty())
     {
-      outfile << endl<< "ERROR: This list is empty!";
+      outfile << "ERROR: This list is empty!" << endl;
     }
     else
     {
-      outfile << endl << "Value popped: " << ptr->pop();
+      outfile << "Value popped: " << ptr->pop() << endl;
     }
   }
 }

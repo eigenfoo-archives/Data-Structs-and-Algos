@@ -32,17 +32,8 @@ int main()
   openOutputStream(outfile);
 
   string inputLine;
-
-  /*  Print a PROCESSING COMMAND line without an endl, so as to avoid newlines
-  at the beginning and end of the output file. This also accounts for the
-  strange placement of endl's at the start of all printed lines.  */
-  getline(infile, inputLine);
-  outfile << "PROCESSING COMMAND: " << inputLine;
-  parseAndProcessLine(inputLine);
-
   while (getline(infile, inputLine))
   {
-    outfile << endl << "PROCESSING COMMAND: " << inputLine;
     parseAndProcessLine(inputLine);
   }
 
@@ -70,6 +61,8 @@ void openOutputStream(ofstream &out)
 //  Splits an input line, and processes the line depending on the datatype
 void parseAndProcessLine(string inputLine)
 {
+  outfile << "PROCESSING COMMAND: " << inputLine << endl;
+
   /*  Splits the input line into words using string streams. If there are only
   2 words (i.e. the command is pop), words[2] will be empty.  */
   string buffer;
@@ -84,21 +77,21 @@ void parseAndProcessLine(string inputLine)
   //  Process line depending on datatype
   if (words[1].substr(0, 1) == "i")
   {
-    int foo;
+    int value;
     if (!words[2].empty())
     {
-      foo = atoi(words[2].c_str());
+      value = atoi(words[2].c_str());
     }
-    processLine(listSLi, words, foo);
+    processLine(listSLi, words, value);
   }
   else if (words[1].substr(0, 1) == "d")
   {
-    double foo;
+    double value;
     if (!words[2].empty())
     {
-      foo = atof(words[2].c_str());
+      value = atof(words[2].c_str());
     }
-    processLine(listSLd, words, foo);
+    processLine(listSLd, words, value);
   }
   else if (words[1].substr(0, 1) == "s")
   {
