@@ -44,7 +44,8 @@ void processLine(list<SimpleList<T> *> &listSL, string words[], T value)
     }
     else
     {
-      //  inputLine was null-terminated, so so will words[2]
+      //  inputLine was null-terminated, so we must compare to a
+      //  null-terminated string
       if (words[2] == "stack\0")
       {
         Stack<T>* ptrSL = new Stack<T>(words[1]);

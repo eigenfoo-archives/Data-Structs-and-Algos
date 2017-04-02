@@ -11,14 +11,18 @@ using namespace std;
 
 #include <iostream>         //  cout, cin
 #include <fstream>          //  ifstream, ofstream, open
-#include <string>           //  string
-#include <list>             //  list
+#include <string>           //  string class
+#include <list>             //  list class
 #include <sstream>          //  stringstream
 #include <stdlib.h>         //  atoi, atof
-#include "SimpleList.cpp"
-#include "Stack.cpp"
-#include "Queue.cpp"
+
+#ifndef DATA_STRUCTS        //  SimpleLists, Stacks, Queues, and functions
+#define DATA_STRUCTS        //  (taking SimpleLists as arguments) needed in main
+#include "SimpleList.h"
+#include "Stack.h"
+#include "Queue.h"
 #include "main.h"
+#endif
 
 ifstream infile;
 ofstream outfile;
