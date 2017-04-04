@@ -2,7 +2,7 @@
 Data Structures and Algorithms Assignment #1: Stacks and Queues
 George Ho, Spring 2017
 
-This code implements queues.
+This header file implements queues.
 */
 
 //  Class declaration for Queue

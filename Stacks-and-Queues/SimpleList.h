@@ -2,8 +2,9 @@
 Data Structures and Algorithms Assignment #1: Stacks and Queues
 George Ho, Spring 2017
 
-This code implements an abstract base class, SimpleList, from which stacks and
-queues are derived. SimpleList is implemented as a linear, singly-linked list.
+This header file implements an abstract base class, SimpleList, from which
+stacks and queues are derived. SimpleList is implemented as a linear,
+singly-linked list.
 */
 
 //  Class declaration for SimpleList
