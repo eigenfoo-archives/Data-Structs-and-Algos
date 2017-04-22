@@ -102,7 +102,15 @@ int main() {
 // You may add global variables, functions, and/or
 // class defintions here if you wish.
 
-//  Node object for test cases 1 and 2
+/*
+Data Structures and Algorithms Assignment #2: Sorting
+George Ho, Spring 2017
+
+This code identifies the test case, applying introsort if T1, mergesort if T2,
+counting sort if T3, and insertion sort if T4.
+*/
+
+//  Node object for T1 and T2
 class NodeT12 {
 public:
   Data* dataPtr;
@@ -110,14 +118,14 @@ public:
   int intPartLength;
 };
 
-//  Node object for test case 3
+//  Node object for T3
 class NodeT3 {
 public:
   Data* dataPtr;
   int intRep;
 };
 
-//  Node object for test case 4
+//  Node object for T4
 class NodeT4 {
 public:
   Data* dataPtr;
@@ -132,8 +140,6 @@ bool compareT12(const NodeT12 &first, const NodeT12 &second);
 bool compareT4(const NodeT4 &first, const NodeT4 &second);
 void countingSort(int size);
 void insertionSort(int size);
-void vucketSort(int size, int digit);
-void radixSort(int size);
 
 int testCase, listSize;
 NodeT12 arrayT12[1050000];
@@ -150,6 +156,8 @@ void sortDataList(list<Data *> &l) {
   initializeArrays(l);
   switch(testCase) {
     case 1:
+      sort(arrayT12, arrayT12 + listSize, compareT12);
+      break;
     case 2:
       stable_sort(arrayT12, arrayT12 + listSize, compareT12);
       break;
@@ -240,7 +248,7 @@ void copyToTheList(list<Data *> &l) {
   }
 }
 
-//  Comparison function for test cases 1 and 2
+//  Comparison function for T1 and T2
 //  Returns true if first argument is less than second
 //  Comparison wrongly returns false if integer parts are equal, which happens
 //  with probability 1 - (10e20 choose 10e6)/[(10e20)^(10e6)]
@@ -253,7 +261,7 @@ bool compareT12(const NodeT12 &first, const NodeT12 &second) {
   }
 }
 
-//  Comparison function for test case 4
+//  Comparison function for T4
 //  Returns true if first argument is less than second
 bool compareT4(const NodeT4 &first, const NodeT4 &second) {
   if (first.intPart != second.intPart) {
@@ -264,7 +272,7 @@ bool compareT4(const NodeT4 &first, const NodeT4 &second) {
   }
 }
 
-//  Counting sort for T3 test case
+//  Counting sort for T3
 void countingSort(int size) {
   int i;
   for (i = 0; i < size; i++) {
@@ -281,7 +289,7 @@ void countingSort(int size) {
   }
 }
 
-//  Insertion sort for T4 test case
+//  Insertion sort for T4
 void insertionSort(int size) {
   for (int i = 1; i < size; i++) {
     NodeT4 temp = arrayT4[i];
