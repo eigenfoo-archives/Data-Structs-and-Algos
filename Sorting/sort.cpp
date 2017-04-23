@@ -256,7 +256,7 @@ bool compareT4(const NodeT4 &first, const NodeT4 &second) {
   }
 }
 
-//  Counting sort for T3: sorts in place
+//  Counting sort for T3; copies sorted list back into theList
 void countingSort(list<Data *> &l) {
   int i, j;
   list<Data *>::iterator it = l.begin();
