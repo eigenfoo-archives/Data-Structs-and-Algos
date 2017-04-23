@@ -106,8 +106,8 @@ int main() {
 Data Structures and Algorithms Assignment #2: Sorting
 George Ho, Spring 2017
 
-This code identifies the test case, applying introsort if T1, mergesort if T2,
-counting sort if T3, and insertion sort if T4.
+This code identifies the test case, applying mergesort for T1, T2, counting
+sort for T3, and insertion sort for T4.
 */
 
 //  Node object for T1 and T2
@@ -115,7 +115,7 @@ class NodeT12 {
 public:
   Data* dataPtr;
   unsigned long long intPart;
-  int intPartLength;
+  short intPartLength;
 };
 
 //  Node object for T3
@@ -129,7 +129,7 @@ public:
 class NodeT4 {
 public:
   Data* dataPtr;
-  unsigned long long intPart;
+  short onesPlace;
   unsigned long long fracPart;
 };
 
@@ -142,23 +142,21 @@ void countingSort(int size);
 void insertionSort(int size);
 
 int testCase, listSize;
-NodeT12 arrayT12[1050000];
-NodeT12 arrayT12sorted[1050000];
-NodeT3 arrayT3[1050000];
-NodeT3 arrayT3sorted[1050000];
+NodeT12 arrayT12[1100000];
+NodeT3 arrayT3[1100000];
+NodeT3 arrayT3sorted[1100000];
 short counts[1000000];
-NodeT4 arrayT4[1050000];
-list<Data *>::iterator it, it2;
+NodeT4 arrayT4[1100000];
 
 void sortDataList(list<Data *> &l) {
   determineTestCase(l);
-  cout << "TEST CASE " << testCase << endl;   //REMEMBER TO DELETE LATER!!!!!!!!!!!!!!!!!!
+  cout << "TEST CASE " << testCase << endl;   //REMEMBER TO DELETE LATER!!!!!!!!!!!!!!!!
   initializeArrays(l);
   switch(testCase) {
     case 1:
-      sort(arrayT12, arrayT12 + listSize, compareT12);
-      break;
     case 2:
+      //  std implementation of mergesort found to be faster than qsort() or
+      //  sort() for this specific application, despite conventional wisdom
       stable_sort(arrayT12, arrayT12 + listSize, compareT12);
       break;
     case 3:
@@ -173,10 +171,9 @@ void sortDataList(list<Data *> &l) {
 
 void determineTestCase(list<Data *> &l) {
   listSize = l.size();
-  it = l.begin();
-  it2 = it++;
+  list<Data *>::iterator it = l.begin();
   string str = (*it)->data.substr(0, 12);
-  string str2 = (*(it2))->data.substr(0, 12);
+  string str2 = (*(++it))->data.substr(0, 12);
 
   if(listSize <= 500000) {
     testCase = 1;
@@ -193,13 +190,12 @@ void determineTestCase(list<Data *> &l) {
 }
 
 void initializeArrays(list<Data *> &l) {
-  it = l.begin();
+  list<Data *>::iterator it = l.begin();
   if (testCase == 3) {
     for (int i = 0; i < listSize; i++, it++) {
       arrayT3[i] = NodeT3();
       arrayT3[i].dataPtr = (*it);
-      arrayT3[i].intRep = (int) (atof((*it)->data.c_str()) * 1000);
-      // Got rid of floatVal... This should be ok??? Check once segfault corrected
+      arrayT3[i].intRep = (int) (atof((*it)->data.c_str())*1000);
     }
   }
   else if (testCase == 4) {
@@ -208,8 +204,10 @@ void initializeArrays(list<Data *> &l) {
       arrayT4[i] = NodeT4();
       decPos = (*it)->data.find('.');
       arrayT4[i].dataPtr = (*it);
-      // SHOULD WE ONLY TAKE 17 AND 15 DPS???
-      arrayT4[i].intPart = strtoull((*it)->data.substr(decPos-16, 17).c_str(), 0, 10);
+      //  The ones place is the most significant digit that will change between
+      //  successive numbers. We take 15 digits of the fractional part to avoid
+      //  dealing with stripped trailing zeros.
+      arrayT4[i].onesPlace = ((*it)->data)[decPos-1];
       arrayT4[i].fracPart = strtoull((*it)->data.substr(decPos+1, 15).c_str(), 0, 10);
     }
   }
@@ -227,8 +225,8 @@ void initializeArrays(list<Data *> &l) {
 
 //  Copy the sorted array to theList
 void copyToTheList(list<Data *> &l) {
-  it = l.begin();
-  it2 = l.end();
+  list<Data *>::iterator it = l.begin();
+  list<Data *>::iterator it2 = l.end();
   int i = 0;
 
   if (testCase == 3) {
@@ -248,10 +246,9 @@ void copyToTheList(list<Data *> &l) {
   }
 }
 
-//  Comparison function for T1 and T2
-//  Returns true if first argument is less than second
-//  Comparison wrongly returns false if integer parts are equal, which happens
-//  with probability 1 - (10e20 choose 10e6)/[(10e20)^(10e6)]
+//  Comparison for T1 and T2: returns true if first is less than second.
+//  Incorrectly returns false if integer parts are equal, which happens with
+//  probability 1-(10e20 choose 10e6)/[(10e20)^(10e6)] (i.e. less than 1/1000000)
 bool compareT12(const NodeT12 &first, const NodeT12 &second) {
   if (first.intPartLength != second.intPartLength) {
     return first.intPartLength < second.intPartLength;
@@ -261,11 +258,10 @@ bool compareT12(const NodeT12 &first, const NodeT12 &second) {
   }
 }
 
-//  Comparison function for T4
-//  Returns true if first argument is less than second
+//  Comparison function for T4: returns true if first is less than second
 bool compareT4(const NodeT4 &first, const NodeT4 &second) {
-  if (first.intPart != second.intPart) {
-    return first.intPart < second.intPart;
+  if (first.onesPlace != second.onesPlace) {
+    return first.onesPlace < second.onesPlace;
   }
   else {
     return first.fracPart < second.fracPart;
@@ -274,26 +270,25 @@ bool compareT4(const NodeT4 &first, const NodeT4 &second) {
 
 //  Counting sort for T3
 void countingSort(int size) {
-  int i;
+  int i, j;
   for (i = 0; i < size; i++) {
     counts[arrayT3[i].intRep]++;
   }
 
-  for (i = 1; i < 1000000; i++) {
-    counts[i] += counts[i-1];
-  }
-
-  for (i = 0; i < size; i++) {
-    arrayT3sorted[counts[arrayT3[i].intRep] - 1] = arrayT3[i];
-    counts[arrayT3[i].intRep]--;
+  for (i = 0; i < 1000000; i++) {
+    while (counts[i]--) {
+      arrayT3sorted[j++] = arrayT3[i];
+    }
   }
 }
 
 //  Insertion sort for T4
 void insertionSort(int size) {
+  int j;
+  NodeT4 temp;
   for (int i = 1; i < size; i++) {
-    NodeT4 temp = arrayT4[i];
-    int j;
+    temp = arrayT4[i];
+    j = 0;
     for (j = i; j > 0 && compareT4(temp, arrayT4[j-1]); j--) {
       arrayT4[j] = arrayT4[j-1];
     }
