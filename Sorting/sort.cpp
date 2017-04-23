@@ -115,14 +115,13 @@ class NodeT12 {
 public:
   Data* dataPtr;
   unsigned long long intPart;
-  short intPartLength;
 };
 
 //  Node object for T4
 class NodeT4 {
 public:
   Data* dataPtr;
-  short onesPlace;
+  unsigned long long intPart;
   unsigned long long fracPart;
 };
 
@@ -189,33 +188,34 @@ void determineTestCase(list<Data *> &l) {
 //  Initializes arrayT12 for T1 and T2
 void initializeArrayT12(list<Data *> &l) {
   list<Data *>::iterator it = l.begin();
-  int decPos, strLength;
-  for (int i = 0; i < listSize; i++, it++) {
-    decPos = (*it)->data.find('.');
+  int decPos = 20;
+  for (int i = 0; i < listSize; i++) {
+    arrayT12[i] = NodeT12();
+    decPos = 20;
+    while(((*it)->data)[decPos] != '.') { decPos--; }
     arrayT12[i].dataPtr = (*it);
-    arrayT12[i].intPart = strtoull((*it)->data.substr(0, decPos).c_str(), 0, 10);
-    arrayT12[i].intPartLength = decPos;
+    arrayT12[i].intPart = strtoull((*it)->data.substr(0, decPos-1).c_str(), 0, 10);
+    it++;
   }
 }
 
 //  Initializes arrayT4 for T4
 void initializeArrayT4(list<Data *> &l) {
   list<Data *>::iterator it = l.begin();
-  int decPos;
+  int decPos = 20;
   for (int i = 0; i < listSize; i++, it++) {
-    decPos = (*it)->data.find('.');
+    arrayT4[i] = NodeT4();
+    decPos = 20;
+    while(((*it)->data)[decPos] != '.') { decPos--; }
     arrayT4[i].dataPtr = (*it);
-    /*  The ones place is the most significant digit that will change between
-        successive numbers. We take 15 digits of the fractional part to avoid
-        dealing with stripped trailing zeros.   */
-    arrayT4[i].onesPlace = ((*it)->data)[decPos-1];
+    arrayT4[i].intPart = strtoull((*it)->data.substr(decPos-15, 16).c_str(), 0, 10);
     arrayT4[i].fracPart = strtoull((*it)->data.substr(decPos+1, 15).c_str(), 0, 10);
   }
 }
 
 //  Copy arrayT12 back to theList for T1 and T2
 void copyToTheListT12(list<Data *> &l) {
-  int i;
+  int i = 0;
   list<Data *>::iterator it = l.begin();
   list<Data *>::iterator it2 = l.end();
   while (it != it2) {
@@ -225,7 +225,7 @@ void copyToTheListT12(list<Data *> &l) {
 
 //  Copy arrayT4 back to theList for T4
 void copyToTheListT4(list<Data *> &l) {
-  int i;
+  int i = 0;
   list<Data *>::iterator it = l.begin();
   list<Data *>::iterator it2 = l.end();
   while (it != it2) {
@@ -238,18 +238,13 @@ void copyToTheListT4(list<Data *> &l) {
     with probability 1-(10e20 choose 10e6)/[(10e20)^(10e6)]
     (i.e. less than 1/1000000) */
 bool compareT12(const NodeT12 &first, const NodeT12 &second) {
-  if (first.intPartLength != second.intPartLength) {
-    return first.intPartLength < second.intPartLength;
-  }
-  else {
-    return first.intPart < second.intPart;
-  }
+  return first.intPart < second.intPart;
 }
 
 //  Comparison function for T4: returns true if first is less than second
 bool compareT4(const NodeT4 &first, const NodeT4 &second) {
-  if (first.onesPlace != second.onesPlace) {
-    return first.onesPlace < second.onesPlace;
+  if (first.intPart != second.intPart) {
+    return first.intPart < second.intPart;
   }
   else {
     return first.fracPart < second.fracPart;
@@ -258,18 +253,18 @@ bool compareT4(const NodeT4 &first, const NodeT4 &second) {
 
 //  Counting sort for T3; copies sorted list back into theList
 void countingSort(list<Data *> &l) {
-  int i, j;
+  int i = 0;
   list<Data *>::iterator it = l.begin();
   list<Data *>::iterator it2 = l.end();
 
   while (it != it2) {
-		i = (int) 1000*atof(((*it)->data).c_str());
+		i = round(1000*atof(((*it)->data).c_str()));
 		ptrsT3[i] = *it;
 		countsT3[i]++;
     it++;
 	}
 
-  for (j = 0; j < 1000000; j++) {
+  for (int j = 0; j < 1000000; j++) {
 		while (countsT3[j]--) {
       sortedListT3.push_back(ptrsT3[j]);
     }
@@ -280,11 +275,10 @@ void countingSort(list<Data *> &l) {
 
 //  Insertion sort for T4
 void insertionSort(int size) {
-  int j;
   NodeT4 temp;
   for (int i = 1; i < size; i++) {
     temp = arrayT4[i];
-    j = 0;
+    int j = 0;
     for (j = i; j > 0 && compareT4(temp, arrayT4[j-1]); j--) {
       arrayT4[j] = arrayT4[j-1];
     }
