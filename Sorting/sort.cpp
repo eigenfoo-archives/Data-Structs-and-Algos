@@ -118,13 +118,6 @@ public:
   short intPartLength;
 };
 
-//  Node object for T3
-class NodeT3 {
-public:
-  Data* dataPtr;
-  int intRep;
-};
-
 //  Node object for T4
 class NodeT4 {
 public:
@@ -134,41 +127,45 @@ public:
 };
 
 void determineTestCase(list<Data *> &l);
-void initializeArrays(list<Data *> &l);
-void copyToTheList(list<Data *> &l);
+void initializeArrayT12(list<Data *> &l);
+void initializeArrayT4(list<Data *> &l);
+void copyToTheListT12(list<Data *> &l);
+void copyToTheListT4(list<Data *> &l);
 bool compareT12(const NodeT12 &first, const NodeT12 &second);
 bool compareT4(const NodeT4 &first, const NodeT4 &second);
-void countingSort(int size);
+void countingSort(list<Data *> &l);
 void insertionSort(int size);
 
 int testCase, listSize;
 NodeT12 arrayT12[1100000];
-NodeT3 arrayT3[1100000];
-NodeT3 arrayT3sorted[1100000];
-short counts[1000000];
+list<Data *> sortedListT3;
+Data* ptrsT3[1000000];
+short countsT3[1000000];
 NodeT4 arrayT4[1100000];
 
 void sortDataList(list<Data *> &l) {
   determineTestCase(l);
-  cout << "TEST CASE " << testCase << endl;   //REMEMBER TO DELETE LATER!!!!!!!!!!!!!!!!
-  initializeArrays(l);
   switch(testCase) {
     case 1:
     case 2:
-      //  std implementation of mergesort found to be faster than qsort() or
-      //  sort() for this specific application, despite conventional wisdom
+      initializeArrayT12(l);
+      /*  std implementation of mergesort found to be faster than qsort() or
+        sort() for this specific application, despite conventional wisdom.  */
       stable_sort(arrayT12, arrayT12 + listSize, compareT12);
+      copyToTheListT12(l);
       break;
     case 3:
-      countingSort(listSize);
+      countingSort(l);
       break;
     case 4:
+      initializeArrayT4(l);
       insertionSort(listSize);
+      copyToTheListT4(l);
       break;
   }
-  copyToTheList(l);
 }
 
+//  Identifies the current test case
 void determineTestCase(list<Data *> &l) {
   listSize = l.size();
   list<Data *>::iterator it = l.begin();
@@ -189,66 +186,57 @@ void determineTestCase(list<Data *> &l) {
   }
 }
 
-void initializeArrays(list<Data *> &l) {
+//  Initializes arrayT12 for T1 and T2
+void initializeArrayT12(list<Data *> &l) {
   list<Data *>::iterator it = l.begin();
-  if (testCase == 3) {
-    for (int i = 0; i < listSize; i++, it++) {
-      arrayT3[i] = NodeT3();
-      arrayT3[i].dataPtr = (*it);
-      arrayT3[i].intRep = (int) (atof((*it)->data.c_str())*1000);
-    }
-  }
-  else if (testCase == 4) {
-    int decPos;
-    for (int i = 0; i < listSize; i++, it++) {
-      arrayT4[i] = NodeT4();
-      decPos = (*it)->data.find('.');
-      arrayT4[i].dataPtr = (*it);
-      //  The ones place is the most significant digit that will change between
-      //  successive numbers. We take 15 digits of the fractional part to avoid
-      //  dealing with stripped trailing zeros.
-      arrayT4[i].onesPlace = ((*it)->data)[decPos-1];
-      arrayT4[i].fracPart = strtoull((*it)->data.substr(decPos+1, 15).c_str(), 0, 10);
-    }
-  }
-  else {
-    int decPos, strLength;
-    for (int i = 0; i < listSize; i++, it++) {
-      arrayT12[i] = NodeT12();
-      decPos = (*it)->data.find('.');
-      arrayT12[i].dataPtr = (*it);
-      arrayT12[i].intPart = strtoull((*it)->data.substr(0, decPos).c_str(), 0, 10);
-      arrayT12[i].intPartLength = decPos;
-    }
+  int decPos, strLength;
+  for (int i = 0; i < listSize; i++, it++) {
+    decPos = (*it)->data.find('.');
+    arrayT12[i].dataPtr = (*it);
+    arrayT12[i].intPart = strtoull((*it)->data.substr(0, decPos).c_str(), 0, 10);
+    arrayT12[i].intPartLength = decPos;
   }
 }
 
-//  Copy the sorted array to theList
-void copyToTheList(list<Data *> &l) {
+//  Initializes arrayT4 for T4
+void initializeArrayT4(list<Data *> &l) {
+  list<Data *>::iterator it = l.begin();
+  int decPos;
+  for (int i = 0; i < listSize; i++, it++) {
+    decPos = (*it)->data.find('.');
+    arrayT4[i].dataPtr = (*it);
+    /*  The ones place is the most significant digit that will change between
+        successive numbers. We take 15 digits of the fractional part to avoid
+        dealing with stripped trailing zeros.   */
+    arrayT4[i].onesPlace = ((*it)->data)[decPos-1];
+    arrayT4[i].fracPart = strtoull((*it)->data.substr(decPos+1, 15).c_str(), 0, 10);
+  }
+}
+
+//  Copy arrayT12 back to theList for T1 and T2
+void copyToTheListT12(list<Data *> &l) {
+  int i;
   list<Data *>::iterator it = l.begin();
   list<Data *>::iterator it2 = l.end();
-  int i = 0;
+  while (it != it2) {
+    *(it++) = arrayT12[i++].dataPtr;
+  }
+}
 
-  if (testCase == 3) {
-    while (it != it2) {
-      *(it++) = arrayT3sorted[i++].dataPtr;
-    }
-  }
-  else if (testCase == 4) {
-    while (it != it2) {
-      *(it++) = arrayT4[i++].dataPtr;
-    }
-  }
-  else {
-    while (it != it2) {
-      *(it++) = arrayT12[i++].dataPtr;
-    }
+//  Copy arrayT4 back to theList for T4
+void copyToTheListT4(list<Data *> &l) {
+  int i;
+  list<Data *>::iterator it = l.begin();
+  list<Data *>::iterator it2 = l.end();
+  while (it != it2) {
+    *(it++) = arrayT4[i++].dataPtr;
   }
 }
 
 //  Comparison for T1 and T2: returns true if first is less than second.
-//  Incorrectly returns false if integer parts are equal, which happens with
-//  probability 1-(10e20 choose 10e6)/[(10e20)^(10e6)] (i.e. less than 1/1000000)
+/*  Incorrectly returns false if the integer parts are equal, which happens
+    with probability 1-(10e20 choose 10e6)/[(10e20)^(10e6)]
+    (i.e. less than 1/1000000) */
 bool compareT12(const NodeT12 &first, const NodeT12 &second) {
   if (first.intPartLength != second.intPartLength) {
     return first.intPartLength < second.intPartLength;
@@ -268,18 +256,26 @@ bool compareT4(const NodeT4 &first, const NodeT4 &second) {
   }
 }
 
-//  Counting sort for T3
-void countingSort(int size) {
+//  Counting sort for T3: sorts in place
+void countingSort(list<Data *> &l) {
   int i, j;
-  for (i = 0; i < size; i++) {
-    counts[arrayT3[i].intRep]++;
-  }
+  list<Data *>::iterator it = l.begin();
+  list<Data *>::iterator it2 = l.end();
 
-  for (i = 0; i < 1000000; i++) {
-    while (counts[i]--) {
-      arrayT3sorted[j++] = arrayT3[i];
+  while (it != it2) {
+		i = (int) 1000*atof(((*it)->data).c_str());
+		ptrsT3[i] = *it;
+		countsT3[i]++;
+    it++;
+	}
+
+  for (j = 0; j < 1000000; j++) {
+		while (countsT3[j]--) {
+      sortedListT3.push_back(ptrsT3[j]);
     }
-  }
+	}
+
+  l.swap(sortedListT3);
 }
 
 //  Insertion sort for T4
