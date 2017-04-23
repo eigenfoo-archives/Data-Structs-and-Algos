@@ -125,7 +125,7 @@ public:
   unsigned long long fracPart;
 };
 
-void determineTestCase(list<Data *> &l);
+int determineTestCase(list<Data *> &l);
 void initializeArrayT12(list<Data *> &l);
 void initializeArrayT4(list<Data *> &l);
 void copyToTheListT12(list<Data *> &l);
@@ -135,7 +135,7 @@ bool compareT4(const NodeT4 &first, const NodeT4 &second);
 void countingSort(list<Data *> &l);
 void insertionSort(int size);
 
-int testCase, listSize;
+int listSize;
 NodeT12 arrayT12[1100000];
 list<Data *> sortedListT3;
 Data* ptrsT3[1000000];
@@ -143,8 +143,8 @@ short countsT3[1000000];
 NodeT4 arrayT4[1100000];
 
 void sortDataList(list<Data *> &l) {
-  determineTestCase(l);
-  switch(testCase) {
+  listSize = l.size();
+  switch(determineTestCase(l)) {
     case 1:
     case 2:
       initializeArrayT12(l);
@@ -165,23 +165,22 @@ void sortDataList(list<Data *> &l) {
 }
 
 //  Identifies the current test case
-void determineTestCase(list<Data *> &l) {
-  listSize = l.size();
+int determineTestCase(list<Data *> &l) {
   list<Data *>::iterator it = l.begin();
   string str = (*it)->data.substr(0, 12);
   string str2 = (*(++it))->data.substr(0, 12);
 
   if(listSize <= 500000) {
-    testCase = 1;
+    return 1;
   }
   else if((*it)->data.length() <= 7) {
-    testCase = 3;
+    return 3;
   }
   else if(!(strcmp(str.c_str(), str2.c_str()))) {
-    testCase = 4;
+    return 4;
   }
   else {
-    testCase = 2;
+    return 2;
   }
 }
 
@@ -190,7 +189,6 @@ void initializeArrayT12(list<Data *> &l) {
   list<Data *>::iterator it = l.begin();
   int decPos = 20;
   for (int i = 0; i < listSize; i++) {
-    arrayT12[i] = NodeT12();
     decPos = 20;
     while(((*it)->data)[decPos] != '.') { decPos--; }
     arrayT12[i].dataPtr = (*it);
@@ -204,7 +202,6 @@ void initializeArrayT4(list<Data *> &l) {
   list<Data *>::iterator it = l.begin();
   int decPos = 20;
   for (int i = 0; i < listSize; i++, it++) {
-    arrayT4[i] = NodeT4();
     decPos = 20;
     while(((*it)->data)[decPos] != '.') { decPos--; }
     arrayT4[i].dataPtr = (*it);
