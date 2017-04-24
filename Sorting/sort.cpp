@@ -117,30 +117,18 @@ public:
   unsigned long long intPart;
 };
 
-//  Node object for T4
-class NodeT4 {
-public:
-  Data* dataPtr;
-  unsigned long long intPart;
-  unsigned long long fracPart;
-};
-
 int determineTestCase(list<Data *> &l);
 void initializeArrayT12(list<Data *> &l);
-void initializeArrayT4(list<Data *> &l);
 void copyToTheListT12(list<Data *> &l);
-void copyToTheListT4(list<Data *> &l);
 bool compareT12(const NodeT12 &first, const NodeT12 &second);
-bool compareT4(const NodeT4 &first, const NodeT4 &second);
+bool compare(const Data* data1, const Data* data2);
 void countingSort(list<Data *> &l);
-void insertionSort(int size);
+void insertionSort(list<Data *> &l);
 
-int listSize;
-NodeT12 arrayT12[1100000];
-list<Data *> sortedListT3;
-Data* ptrsT3[1000000];
-short countsT3[1000000];
-NodeT4 arrayT4[1100000];
+int listSize = 0;
+NodeT12 arrayT12[1100000] = {};
+Data* buckets[1100000] = {};
+short counts[1100000] = {};
 
 void sortDataList(list<Data *> &l) {
   listSize = l.size();
@@ -157,9 +145,7 @@ void sortDataList(list<Data *> &l) {
       countingSort(l);
       break;
     case 4:
-      initializeArrayT4(l);
-      insertionSort(listSize);
-      copyToTheListT4(l);
+      insertionSort(l);
       break;
   }
 }
@@ -190,23 +176,12 @@ void initializeArrayT12(list<Data *> &l) {
   int decPos = 20;
   for (int i = 0; i < listSize; i++) {
     decPos = 20;
-    while(((*it)->data)[decPos] != '.') { decPos--; }
+    while (((*it)->data)[decPos] != '.') {
+      decPos--;
+    }
     arrayT12[i].dataPtr = (*it);
     arrayT12[i].intPart = strtoull((*it)->data.substr(0, decPos-1).c_str(), 0, 10);
     it++;
-  }
-}
-
-//  Initializes arrayT4 for T4
-void initializeArrayT4(list<Data *> &l) {
-  list<Data *>::iterator it = l.begin();
-  int decPos = 20;
-  for (int i = 0; i < listSize; i++, it++) {
-    decPos = 20;
-    while(((*it)->data)[decPos] != '.') { decPos--; }
-    arrayT4[i].dataPtr = (*it);
-    arrayT4[i].intPart = strtoull((*it)->data.substr(decPos-15, 16).c_str(), 0, 10);
-    arrayT4[i].fracPart = strtoull((*it)->data.substr(decPos+1, 15).c_str(), 0, 10);
   }
 }
 
@@ -220,16 +195,6 @@ void copyToTheListT12(list<Data *> &l) {
   }
 }
 
-//  Copy arrayT4 back to theList for T4
-void copyToTheListT4(list<Data *> &l) {
-  int i = 0;
-  list<Data *>::iterator it = l.begin();
-  list<Data *>::iterator it2 = l.end();
-  while (it != it2) {
-    *(it++) = arrayT4[i++].dataPtr;
-  }
-}
-
 //  Comparison for T1 and T2: returns true if first is less than second.
 /*  Incorrectly returns false if the integer parts are equal, which happens
     with probability 1-(10e20 choose 10e6)/[(10e20)^(10e6)]
@@ -238,47 +203,57 @@ bool compareT12(const NodeT12 &first, const NodeT12 &second) {
   return first.intPart < second.intPart;
 }
 
-//  Comparison function for T4: returns true if first is less than second
-bool compareT4(const NodeT4 &first, const NodeT4 &second) {
-  if (first.intPart != second.intPart) {
-    return first.intPart < second.intPart;
-  }
-  else {
-    return first.fracPart < second.fracPart;
-  }
+//  Comparison for T4: returns true if first is less than second
+bool compareT4(const Data* first, const Data* second) {
+    int i = 20;
+    int j = 20;
+    while((first->data)[i] != '.') {
+      i--;
+    }
+    while((second->data)[j] != '.') {
+      j--;
+    }
+
+    if (i == j) {
+        return ((first->data).compare(second->data) < 0);
+    }
+    else {
+        return (i < j);
+    }
 }
 
-//  Counting sort for T3; copies sorted list back into theList
+//  Counting sort for T3: sorts in-place with iterators
 void countingSort(list<Data *> &l) {
   int i = 0;
   list<Data *>::iterator it = l.begin();
   list<Data *>::iterator it2 = l.end();
-
-  while (it != it2) {
-		i = round(1000*atof(((*it)->data).c_str()));
-		ptrsT3[i] = *it;
-		countsT3[i]++;
-    it++;
+	for (it = l.begin(); it != it2; it++) {
+		i = round((1000*atof(((*it)->data).c_str())));
+		buckets[i] = *it;
+		counts[i]++;
 	}
 
-  for (int j = 0; j < 1000000; j++) {
-		while (countsT3[j]--) {
-      sortedListT3.push_back(ptrsT3[j]);
-    }
+  it = l.begin();
+	i = 0;
+	while (it != it2) {
+		while (counts[i]--) {
+			*(it++) = buckets[i];
+		}
+		i++;
 	}
-
-  l.swap(sortedListT3);
 }
 
-//  Insertion sort for T4
-void insertionSort(int size) {
-  NodeT4 temp;
-  for (int i = 1; i < size; i++) {
-    temp = arrayT4[i];
-    int j = 0;
-    for (j = i; j > 0 && compareT4(temp, arrayT4[j-1]); j--) {
-      arrayT4[j] = arrayT4[j-1];
+//  Insertion sort for T4: sorts in-place with iterators
+void insertionSort(list<Data *> &l) {
+  list<Data *>::iterator begin = l.begin();
+  list<Data *>::iterator end = l.end();
+  list<Data *>::iterator it;
+
+  for (list<Data *>::iterator it2 = next(begin, 1); it2 != end; it2++) {
+    Data* temp = *it2;
+    for (it = it2; (it != begin) && (compareT4(temp, *(prev(it, 1)))); it--) {
+      *it = *(prev(it, 1));
     }
-    arrayT4[j] = temp;
+    *it  = temp;
   }
 }
