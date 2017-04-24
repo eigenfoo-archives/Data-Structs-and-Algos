@@ -17,7 +17,7 @@ void parseAndProcessLine(string inputLine);
 
 //  Searches a given list for a specified SimpleList
 template <typename T>
-SimpleList<T>* searchForSimpleList(list<SimpleList<T> *> searchList,
+SimpleList<T>* searchForSimpleList(list<SimpleList<T> *> &searchList,
                                   string listName)
 {
   for (typename list<SimpleList<T> *>::const_iterator it = searchList.begin();
