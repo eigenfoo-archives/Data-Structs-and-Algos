@@ -119,15 +119,15 @@ public:
 
 int determineTestCase(list<Data *> &l);
 void initializeArrayT12(list<Data *> &l);
-void copyToTheListT12(list<Data *> &l);
+void copyToTheList(list<Data *> &l);
 bool compareT12(const NodeT12 &first, const NodeT12 &second);
-bool compare(const Data* data1, const Data* data2);
+bool compareT4(const Data* first, const Data* second);
 void countingSort(list<Data *> &l);
 void insertionSort(list<Data *> &l);
 
 int listSize = 0;
 NodeT12 arrayT12[1100000] = {};
-Data* buckets[1100000] = {};
+Data* dataPtrs[1100000] = {};
 short counts[1100000] = {};
 
 void sortDataList(list<Data *> &l) {
@@ -137,9 +137,9 @@ void sortDataList(list<Data *> &l) {
     case 2:
       initializeArrayT12(l);
       /*  std implementation of mergesort found to be faster than qsort() or
-        sort() for this specific application, despite conventional wisdom.  */
+          sort() for this specific application, despite conventional wisdom.  */
       stable_sort(arrayT12, arrayT12 + listSize, compareT12);
-      copyToTheListT12(l);
+      copyToTheList(l);
       break;
     case 3:
       countingSort(l);
@@ -186,7 +186,7 @@ void initializeArrayT12(list<Data *> &l) {
 }
 
 //  Copy arrayT12 back to theList for T1 and T2
-void copyToTheListT12(list<Data *> &l) {
+void copyToTheList(list<Data *> &l) {
   int i = 0;
   list<Data *>::iterator it = l.begin();
   list<Data *>::iterator it2 = l.end();
@@ -229,7 +229,7 @@ void countingSort(list<Data *> &l) {
   list<Data *>::iterator it2 = l.end();
 	for (it = l.begin(); it != it2; it++) {
 		i = round((1000*atof(((*it)->data).c_str())));
-		buckets[i] = *it;
+		dataPtrs[i] = *it;
 		counts[i]++;
 	}
 
@@ -237,7 +237,7 @@ void countingSort(list<Data *> &l) {
 	i = 0;
 	while (it != it2) {
 		while (counts[i]--) {
-			*(it++) = buckets[i];
+			*(it++) = dataPtrs[i];
 		}
 		i++;
 	}
