@@ -1,4 +1,4 @@
-# Data-Structures-and-Algorithms
+# Data Structures and Algorithms
 
 ## ECE 264 (Data Structures and Algorithms I)
 Prof. Carl Sable, Spring 2017, The Cooper Union.
@@ -21,3 +21,4 @@ Faculty Website:
 Course Description:
 A continuation of ECE 264, also with an emphasis on practical implementation issues and good programming methodology. Topics include graphs, graph-related algorithms and dynamic programming techniques. Also an introduction to some advanced topics such as Turing machines, computability and NP-complete systems. Assignments include programming projects and problem sets.
 
+* Assignment 1: 
