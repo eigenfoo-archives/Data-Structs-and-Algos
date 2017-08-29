@@ -16,7 +16,7 @@ An introduction to fundamental data structures and algorithms, with an emphasis 
 Prof. Carl Sable, Fall 2017, The Cooper Union.
 
 Faculty Website:
-(not yet created)
+http://faculty.cooper.edu/sable2/courses/fall2018/ece265/
 
 Course Description:
 A continuation of ECE 264, also with an emphasis on practical implementation issues and good programming methodology. Topics include graphs, graph-related algorithms and dynamic programming techniques. Also an introduction to some advanced topics such as Turing machines, computability and NP-complete systems. Assignments include programming projects and problem sets.
