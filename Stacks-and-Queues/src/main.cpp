@@ -78,7 +78,7 @@ void parseAndProcessLine(string inputLine)
   //  Process line depending on datatype
   if (words[1].substr(0, 1) == "i")
   {
-    int value;
+    int value = 0;
     if (!words[2].empty())
     {
       value = atoi(words[2].c_str());
@@ -87,7 +87,7 @@ void parseAndProcessLine(string inputLine)
   }
   else if (words[1].substr(0, 1) == "d")
   {
-    double value;
+    double value = 0.0;
     if (!words[2].empty())
     {
       value = atof(words[2].c_str());
