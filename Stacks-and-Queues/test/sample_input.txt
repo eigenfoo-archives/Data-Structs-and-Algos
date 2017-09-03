@@ -1,0 +1,52 @@
+create i1 queue
+create i1 queue
+create i1 stack
+create i2 stack
+create s99 stack
+push i1 50
+push i1 100
+push i2 -50
+push i2 100
+push s99 Hello
+push s99 World
+pop i2
+pop s99
+push s99 planet
+pop i2
+push i2 150
+pop s99
+pop s99
+create d99 stack
+push d99 0.123
+push d99 -0.456
+pop d99
+pop s99
+push dHelloWorld 0.5
+pop dHelloWorld
+push i2 200
+pop i2
+pop i1
+push i1 150
+push i1 200
+pop i1
+create dHelloWorld stack
+create dHelloPlanet queue
+push dHelloWorld 3.14
+pop i2
+pop i2
+push dHelloWorld 3.1415
+push dHelloPlanet -60.5
+push dHelloWorld -1
+pop dHelloWorld
+pop dHelloPlanet
+pop sR2D2
+create sR2D2 queue
+pop sR2D2
+push sR2D2 123abcDEF
+push sR2D2 G4H5I6j7k8l9
+pop sR2D2
+pop sR2D2
+pop sR2D2
+pop dHelloWorld
+pop dHelloWorld
+pop dHelloWorld
