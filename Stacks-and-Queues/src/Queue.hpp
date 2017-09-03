@@ -15,7 +15,7 @@ class Queue: public SimpleList<T>
 public:
   void push(T val);
   T pop();
-  Queue(string queueName);
+  explicit Queue(string queueName);
 };
 
 //  Push onto the queue: i.e. insert at the end of the SimpleList

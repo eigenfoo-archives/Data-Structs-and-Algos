@@ -18,8 +18,8 @@ public:
   virtual void push(T val) = 0;
   virtual T pop() = 0;
   string getListName();
-  bool isEmpty();
-  SimpleList(string name);
+  bool isEmpty() const;
+  explicit SimpleList(string name);
 
 private:
   struct Node;
@@ -43,7 +43,7 @@ string SimpleList<T>::getListName()
 //  Checks if the SimpleList is empty. Note that start == NULL is sufficient to
 //  guarantee that a SimpleList is empty.
 template <typename T>
-bool SimpleList<T>::isEmpty()
+bool SimpleList<T>::isEmpty() const
 {
   return (start == NULL);
 }

@@ -15,7 +15,7 @@ class Stack: public SimpleList<T>
 public:
   void push(T val);
   T pop();
-  Stack(string stackName);
+  explicit Stack(string stackName);
 };
 
 //  Push onto the stack: i.e. insert at the start of the SimpleList
