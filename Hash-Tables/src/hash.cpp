@@ -53,10 +53,29 @@ bool HashTable::contains(const std::string &key) {
 }
 
 void * HashTable::getPointer(const std::string &key, bool *b) {
-    return nullptr;
+    unsigned int pos = this->findPos(key);
+    
+    if (b != NULL && pos == -1) {
+        *b = false;
+        return NULL;
+    }
+    else {
+        *b = true;
+    }
+
+    return this->data.at(pos).pv;
 }
 
 int HashTable::setPointer(const std::string &key, void *pv) {
+    unsigned int pos = this->findPos(key);
+
+    if (pos == -1) {
+        return 1;
+    }
+    else {
+        this->data.at(pos).pv = pv;
+    }
+
     return 0;
 }
 
