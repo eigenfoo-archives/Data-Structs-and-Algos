@@ -15,6 +15,32 @@ HashTable::HashTable(int size) {
 }
 
 int HashTable::insert(const std::string &key, void *pv) {
+    unsigned int pos = findPos(key);
+
+    // If key is already in hash table, return 1
+    if (pos != -1) {
+        return 1;
+    }
+    // Else, insert it
+    else {
+        HashItem temp;
+        temp.key = key;
+        temp.isOccupied = true;
+        temp.isDeleted = false;
+        temp.pv = pv;
+
+        this->data.at(pos) = temp;
+    }
+
+    // If over half full, rehash
+    if (2*(this->filled) > this->capacity) {
+        // If rehash fails, return 2
+        if (!this->rehash()) {
+            return 2;
+        }
+    }
+
+    // Otherwise, insertion successful. Return 0
     return 0;
 }
 
@@ -46,7 +72,7 @@ unsigned int HashTable::hash(const std::string &key) {
 	return hash;
 }
 
-int HashTable::findPos(const std::string &key) {
+unsigned int HashTable::findPos(const std::string &key) {
     unsigned int currentPos = hash(key);
 
     // Terminates either at the next non-occupied element,
@@ -59,15 +85,14 @@ int HashTable::findPos(const std::string &key) {
         }
     }
 
+    // If non-occupied or deleted, return -1
     if (!this->data.at(currentPos).isOccupied ||
             this->data.at(currentPos).isDeleted) {
-        // If non-occupied or deleted, return -1
         return -1;
     }
-    else {
-        // Otherwise, return the position found
-        return currentPos;
-    }
+
+    // Otherwise, return the position found
+    return currentPos;
 }
 
 bool HashTable::rehash() {
