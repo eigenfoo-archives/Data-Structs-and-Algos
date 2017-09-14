@@ -18,7 +18,7 @@ int HashTable::insert(const std::string &key, void *pv) {
     unsigned int pos = this->findPos(key);
 
     // If key is already in hash table, return 1
-    if (pos != -1) {
+    if (pos == -1) {
         return 1;
     }
     // Else, insert
@@ -45,11 +45,11 @@ int HashTable::insert(const std::string &key, void *pv) {
 }
 
 bool HashTable::contains(const std::string &key) {
-    if (this->findPos(key) != -1) {
-        return true;
+    if (this->findPos(key) == -1) {
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 void * HashTable::getPointer(const std::string &key, bool *b) {
@@ -82,12 +82,12 @@ int HashTable::setPointer(const std::string &key, void *pv) {
 bool HashTable::remove(const std::string &key) {
     unsigned int pos = this->findPos(key);
 
-    if (pos != -1) {
-        this->data.at(pos).isDeleted = true;
-        return true;
+    if (pos == -1) {
+        return false;
     }
 
-    return false;
+   this->data.at(pos).isDeleted = true;
+   return true;
 }
 
 unsigned int HashTable::hash(const std::string &key) {
