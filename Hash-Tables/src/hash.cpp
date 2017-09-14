@@ -59,14 +59,15 @@ int HashTable::findPos(const std::string &key) {
         }
     }
 
-    // If non-occupied or deleted, return -1
     if (!this->data.at(currentPos).isOccupied ||
             this->data.at(currentPos).isDeleted) {
+        // If non-occupied or deleted, return -1
         return -1;
     }
-
-    // Otherwise, return the position found
-    return currentPos;
+    else {
+        // Otherwise, return the position found
+        return currentPos;
+    }
 }
 
 bool HashTable::rehash() {
