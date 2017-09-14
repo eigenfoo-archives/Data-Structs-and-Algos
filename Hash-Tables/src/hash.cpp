@@ -111,10 +111,27 @@ unsigned int HashTable::findPos(const std::string &key) {
 }
 
 bool HashTable::rehash() {
+    unsigned int oldCapacity = this->capacity;
+    unsigned int newCapacity = this->getPrime(2*oldCapacity);
+    
+    // What does it "memory allocation fails" mean?
+    if (newCapacity == 0) {
+        return false;
+    }
+
+    HashItem empty;
+    empty.key = "";
+    empty.isOccupied = false;
+    empty.isDeleted = false;
+    empty.pv = nullptr;
+
+    std::vector<HashItem> newData;
+    newData.resize(newCapacity, empty);
+    
     return true;
 }
 
-unsigned int HashTable::getPrime(int size) {
+unsigned int HashTable::getPrime(unsigned int size) {
     // http://planetmath.org/sites/default/files/texpdf/33327.pdf
     const static unsigned int primes[] = {
         53, 97, 193, 389, 769, 1543, 3079, 6151, 12289, 24593, 49157, 98317,
@@ -123,7 +140,13 @@ unsigned int HashTable::getPrime(int size) {
     };
 
     int i = 0;
-    while (primes[i] < 2*size) {
+
+    // If we don't have a larger prime, return 0
+    if (size > primes[25]) {
+        return 0;
+    }
+
+    while (primes[i] < size) {
         i++;
     }
 

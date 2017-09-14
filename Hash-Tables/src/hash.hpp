@@ -76,7 +76,7 @@ class HashTable {
     
     // Return a prime number at least as large as size.
     // Uses a precomputed sequence of selected prime numbers.
-    static unsigned int getPrime(int size);
+    static unsigned int getPrime(unsigned int size);
 };
 
 #endif //_HASH_H
