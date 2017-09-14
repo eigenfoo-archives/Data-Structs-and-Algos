@@ -113,8 +113,8 @@ unsigned int HashTable::findPos(const std::string &key) {
 bool HashTable::rehash() {
     unsigned int oldCapacity = this->capacity;
     unsigned int newCapacity = this->getPrime(2*oldCapacity);
-    
-    // What does it "memory allocation fails" mean?
+
+    // If none of our primes are large enough, rehash fails
     if (newCapacity == 0) {
         return false;
     }
@@ -125,9 +125,22 @@ bool HashTable::rehash() {
     empty.isDeleted = false;
     empty.pv = nullptr;
 
-    std::vector<HashItem> newData;
-    newData.resize(newCapacity, empty);
-    
+    std::vector<HashItem> dataCopy = this->data;
+    this->data.resize(newCapacity, empty);
+
+    // If memory allocation does not proceed as expected, rehash fails
+    if (this->data.size() != newCapacity) {
+        return false;
+    }
+
+    for (int i = 0; i < oldCapacity; i++) {
+        HashItem temp = dataCopy.at(i);
+
+        if (temp.isOccupied && !temp.isDeleted) {
+            this->insert(temp.key, temp.pv);
+        }
+    }
+
     return true;
 }
 

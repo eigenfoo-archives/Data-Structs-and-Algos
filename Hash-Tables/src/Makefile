@@ -1,10 +1,10 @@
 spell.exe: spellcheck.o hash.o
 	g++ -o spell.exe spellcheck.o hash.o
 
-spellcheck.o: spellcheck.cpp hash.h
+spellcheck.o: spellcheck.cpp hash.hpp
 	g++ -c spellcheck.cpp
 
-hash.o: hash.cpp hash.h
+hash.o: hash.cpp hash.hpp
 	g++ -c hash.cpp
 
 debug:
