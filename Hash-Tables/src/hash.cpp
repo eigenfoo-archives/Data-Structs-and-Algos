@@ -47,7 +47,26 @@ unsigned int HashTable::hash(const std::string &key) {
 }
 
 int HashTable::findPos(const std::string &key) {
-    return 0;
+    unsigned int currentPos = hash(key);
+
+    // Terminates either at the next non-occupied element,
+    // or the position of the specified key.
+    while (this->data.at(currentPos).isOccupied &&
+            this->data.at(currentPos).key != key) {
+        currentPos++;
+        if (currentPos >= this->capacity) {
+            currentPos -= this->capacity;
+        }
+    }
+
+    // If non-occupied or deleted, return -1
+    if (!this->data.at(currentPos).isOccupied ||
+            this->data.at(currentPos).isDeleted) {
+        return -1;
+    }
+
+    // Otherwise, return the position found
+    return currentPos;
 }
 
 bool HashTable::rehash() {
