@@ -4,29 +4,37 @@
 #include <ctime>
 #include "hash.hpp"
 
-std::ifstream infile;
-std::ofstream outfile;
-
 void openInputStream(std::ifstream &in, bool openDict = true);
 void openOutputStream(std::ofstream &out);
-void loadDictionary();
+void loadDictionary(std::ifstream &dictionary);
 void checkDocument();
 
 int main() {
+    HashTable hashTable(100000);
     clock_t t1, t2;
     double timeDiff;
 
+    std::ifstream dictionary;
+    openInputStream(dictionary, true);
+
     t1 = clock();
-    loadDictionary();
+    loadDictionary(dictionary);
     t2 = clock();
     timeDiff = ((double) (t2 - t1)) / CLOCKS_PER_SEC;
-    std::cout << "Total time (in seconds) to load dictionary: " << timeDiff << std::endl;
+    std::cout << "Total time (in seconds) to load dictionary: "
+        << timeDiff << std::endl;
+
+    std::ifstream infile;
+    std::ofstream outfile;
+    openInputStream(infile, false);
+    openOutputStream(outfile);
 
     t1 = clock();
     checkDocument();
     t2 = clock();
     timeDiff = ((double) (t2 - t1)) / CLOCKS_PER_SEC;
-    std::cout << "Total time (in seconds) to check document: " << timeDiff << std::endl;
+    std::cout << "Total time (in seconds) to check document: "
+        << timeDiff << std::endl;
 }
 
 //  Prompts the user for the dictionary or input file and opens the
@@ -51,7 +59,7 @@ void openOutputStream(std::ofstream &out) {
     out.open(outname.c_str());
 }
 
-void loadDictionary() {
+void loadDictionary(std::ifstream &dictionary) {
 
 }
 
