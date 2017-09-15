@@ -107,7 +107,7 @@ unsigned int HashTable::hash(const std::string &key) {
 }
 
 unsigned int HashTable::findPos(const std::string &key) {
-    unsigned int currentPos = hash(key);
+    unsigned int currentPos = hash(key) % this->capacity;
 
     // Terminates either at the next non-occupied element,
     // or the position of the specified key.
