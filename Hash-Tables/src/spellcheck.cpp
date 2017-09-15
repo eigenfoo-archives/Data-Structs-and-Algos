@@ -1,13 +1,15 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include <ctime>
 #include "hash.hpp"
 
 void openInputStream(std::ifstream &in, bool openDict = true);
 void openOutputStream(std::ofstream &out);
-void loadDictionary(std::ifstream &dictionary);
-void checkDocument();
+void loadDictionary(HashTable &hashTable, std::ifstream &dictionary);
+void checkDocument(HashTable &hashTable, std::ifstream &infile,
+        std::ofstream &outfile);
 
 int main() {
     HashTable hashTable(100000);
@@ -18,7 +20,7 @@ int main() {
     openInputStream(dictionary, true);
 
     t1 = clock();
-    loadDictionary(dictionary);
+    loadDictionary(hashTable, dictionary);
     t2 = clock();
     timeDiff = ((double) (t2 - t1)) / CLOCKS_PER_SEC;
     std::cout << "Total time (in seconds) to load dictionary: "
@@ -30,7 +32,7 @@ int main() {
     openOutputStream(outfile);
 
     t1 = clock();
-    checkDocument();
+    checkDocument(hashTable, infile, outfile);
     t2 = clock();
     timeDiff = ((double) (t2 - t1)) / CLOCKS_PER_SEC;
     std::cout << "Total time (in seconds) to check document: "
@@ -59,10 +61,16 @@ void openOutputStream(std::ofstream &out) {
     out.open(outname.c_str());
 }
 
-void loadDictionary(std::ifstream &dictionary) {
+void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
+    std::string line;
 
+    while (std::getline(dictionary, line)) {
+        std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+        hashTable.insert(line);
+    }
 }
 
-void checkDocument() {
+void checkDocument(HashTable &hashTable, std::ifstream &infile,
+        std::ofstream &outfile) {
 
 }
