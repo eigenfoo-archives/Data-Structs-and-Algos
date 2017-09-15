@@ -1,0 +1,37 @@
+Long word at line 1, starts: um-deedledeedledeedl
+Unknown word at line 1: um-deedleday
+Long word at line 2, starts: um-deedledeedledeedl
+Unknown word at line 2: um-deedleday
+Long word at line 3, starts: um-deedledeedledeedl
+Unknown word at line 3: um-deedledeedle
+Long word at line 4, starts: um-deedledeedledeedl
+Unknown word at line 4: um-um
+Unknown word at line 4: um-um
+Unknown word at line 4: um-um
+Long word at line 8, starts: supercalifragilistic
+Long word at line 11, starts: supercalifragilistic
+Long word at line 13, starts: um-deedledeedledeedl
+Unknown word at line 13: um-deedleday
+Long word at line 14, starts: um-deedledeedledeedl
+Unknown word at line 14: um-deedleday
+Long word at line 15, starts: um-deedledeedledeedl
+Unknown word at line 15: um-deedleday
+Unknown word at line 17: super-super
+Unknown word at line 18: supercali
+Unknown word at line 19: supercalifragi
+Unknown word at line 21: has
+Unknown word at line 21: there's
+Unknown word at line 21: dismay
+Unknown word at line 23: better
+Unknown word at line 23: carefully
+Unknown word at line 27: yes
+Unknown word at line 29: girl's
+Long word at line 31, starts: supercalifragilistic
+Long word at line 34, starts: supercalifragilistic
+Long word at line 36, starts: supercalifragilistic
+Long word at line 39, starts: supercalifragilistic
+Long word at line 41, starts: supercalifragilistic
+Unknown word at line 44: supercalifragilistic
+Unknown word at line 45: supercalifragilistic
+Long word at line 46, starts: supercalifragilistic
+
