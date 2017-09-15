@@ -72,5 +72,5 @@ void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
 
 void checkDocument(HashTable &hashTable, std::ifstream &infile,
         std::ofstream &outfile) {
-
+    enum state {inWord, betweenWords};
 }
