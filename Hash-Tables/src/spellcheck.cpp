@@ -47,7 +47,7 @@ void openInputStream(std::ifstream &in, bool openDict) {
         std::cout << "Enter name of dictionary: ";
     }
     else {
-        std::cout << "Enter name of output file: ";
+        std::cout << "Enter name of input file: ";
     }
     std::cin >> inname;
     in.open(inname.c_str());
