@@ -131,10 +131,10 @@ unsigned int HashTable::findPos(const std::string &key) {
 
 bool HashTable::rehash() {
     unsigned int oldCapacity = this->capacity;
-    unsigned int newCapacity = this->getPrime(2*oldCapacity);
+    this->capacity = this->getPrime(2*oldCapacity);
 
     // If none of our primes are large enough, rehash fails
-    if (newCapacity == 0) {
+    if (this->capacity == 0) {
         return false;
     }
 
@@ -145,10 +145,10 @@ bool HashTable::rehash() {
     empty.pv = nullptr;
 
     std::vector<HashItem> dataCopy = this->data;
-    this->data.resize(newCapacity, empty);
+    this->data.resize(this->capacity, empty);
 
     // If memory allocation does not proceed as expected, rehash fails
-    if (this->data.size() != newCapacity) {
+    if (this->data.size() != this->capacity) {
         return false;
     }
 
