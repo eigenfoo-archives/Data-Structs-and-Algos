@@ -3,7 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <ctime>
-#include "hash.hpp"
+#include "hash.h"
 
 void openInputStream(std::ifstream &in, bool openDict = true);
 void openOutputStream(std::ofstream &out);
@@ -76,7 +76,7 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
     std::string validChars = "abcdefghijklmnopqrstuvwxyz0123456789-'";
 
     char ch;
-    std::string buffer = ";
+    std::string buffer = "";
 
     enum State {inWord, betweenWords, flushLongWord};
     State state = inWord;
@@ -89,18 +89,19 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
                 if (validChars.find(ch) != std::string::npos) {
                     if (buffer.length() >= 20) {
                         std::cout << "Long word at line " << lineNumber 
-                            << ", starts: " << buffer << endl;
+                            << ", starts: " << buffer << std::endl;
                         buffer = "";
                         state = flushLongWord;
                     }
                     else {
                         buffer.append(ch);
                     }
+                }
                 else {
                     if (std::any_of(buffer.begin(), buffer.end(), ::isdigit)
-                            && !hashTable.contains(buffer) {
+                            && !hashTable.contains(buffer)) {
                         std::cout << "Unknown word at line " << lineNumber
-                            << ": " << buffer << endl;
+                            << ": " << buffer << std::endl;
                     }
                 }
                 break;

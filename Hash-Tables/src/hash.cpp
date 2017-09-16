@@ -1,4 +1,4 @@
-#include "hash.hpp"
+#include "hash.h"
 
 HashTable::HashTable(int size) {
     int tableSize = getPrime(size);

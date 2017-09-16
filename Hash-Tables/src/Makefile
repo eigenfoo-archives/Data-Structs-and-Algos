@@ -1,19 +1,25 @@
-spell.exe: spellcheck.o hash.o
-	g++ -o spell.exe spellcheck.o hash.o
+.PHONY: clean debug run
 
-spellcheck.o: spellcheck.cpp hash.hpp
-	g++ -c spellcheck.cpp
+CC = g++
+CFLAGS = -std=c++11 -Wall 
 
-hash.o: hash.cpp hash.hpp
-	g++ -c hash.cpp
+SOURCES = hash.cpp spellcheck.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
+EXECUTABLE = spell.exe
 
-debug:
-	g++ -g -o spellDebug.exe spellcheck.cpp hash.cpp
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS)
+
+.cpp.o:
+	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -rf *.exe *.o *.stackdump *~ *.dSYM/
+	rm -rf *.exe *.out *.o *.stackdump *~ *.dSYM/
 
-backup:
-	test -d backups || mkdir backups
-	cp *.cpp backups
-	cp *.h backups
+debug:
+	$(CC) $(CFLAGS) -g -o debug.exe $(SOURCES)
+
+run:
+	./$(EXECUTABLE)
