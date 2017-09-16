@@ -38,6 +38,7 @@ int HashTable::insert(const std::string &key, void *pv) {
         item.isDeleted = false;
         item.pv = pv;
         (this->filled)++;
+        std::cout << this->data.at(pos).key << std::endl;
 
         // If over half full, rehash
         if (2*(this->filled) > this->capacity) {

@@ -98,6 +98,8 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
                     }
                 }
                 else {
+                    //std::cout << buffer << " " << hashTable.contains(buffer)
+                    //    << std::endl;
                     if (!std::any_of(buffer.begin(), buffer.end(), ::isdigit)
                             && !hashTable.contains(buffer)) {
                         outfile << "Unknown word at line " << lineNumber
