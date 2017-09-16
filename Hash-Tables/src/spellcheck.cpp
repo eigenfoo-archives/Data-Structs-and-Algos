@@ -94,7 +94,7 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
                         state = flushLongWord;
                     }
                     else {
-                        buffer.append(ch);
+                        buffer.push_back(ch);
                     }
                 }
                 else {
@@ -108,7 +108,7 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
 
             case betweenWords:
                 if (validChars.find(ch) != std::string::npos) {
-                    buffer.append(ch);
+                    buffer.push_back(ch);
                     state = inWord;
                 }
                 break;
