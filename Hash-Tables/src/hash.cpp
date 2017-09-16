@@ -135,11 +135,11 @@ int HashTable::findPos(const std::string &key) {
 }
 
 bool HashTable::rehash() {
-    unsigned int oldCapacity = this->capacity;
+    int oldCapacity = this->capacity;
     this->capacity = this->getPrime(2*oldCapacity);
 
     // If none of our primes are large enough, rehash fails
-    if (this->capacity == 0) {
+    if (this->getPrime(2*oldCapacity) == 0) {
         return false;
     }
 
@@ -168,9 +168,9 @@ bool HashTable::rehash() {
     return true;
 }
 
-unsigned int HashTable::getPrime(unsigned int size) {
+int HashTable::getPrime(int size) {
     // http://planetmath.org/sites/default/files/texpdf/33327.pdf
-    const static unsigned int primes[] = {
+    const static std::vector<int> primes = {
         53, 97, 193, 389, 769, 1543, 3079, 6151, 12289, 24593, 49157, 98317,
         196613, 393241, 786433, 1572869, 3145739, 16291469, 2582917, 25165843,
         50331653, 100663319, 201326611, 402653189, 805306457, 1610612741
