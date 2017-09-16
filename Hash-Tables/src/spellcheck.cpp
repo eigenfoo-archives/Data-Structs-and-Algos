@@ -88,7 +88,7 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
             case inWord:
                 if (validChars.find(ch) != std::string::npos) {
                     if (buffer.length() >= 20) {
-                        std::cout << "Long word at line " << lineNumber 
+                        outfile << "Long word at line " << lineNumber 
                             << ", starts: " << buffer << std::endl;
                         buffer = "";
                         state = flushLongWord;
@@ -100,7 +100,7 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
                 else {
                     if (std::any_of(buffer.begin(), buffer.end(), ::isdigit)
                             && !hashTable.contains(buffer)) {
-                        std::cout << "Unknown word at line " << lineNumber
+                        outfile << "Unknown word at line " << lineNumber
                             << ": " << buffer << std::endl;
                     }
                 }
