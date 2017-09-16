@@ -4,9 +4,9 @@ CC = g++
 CFLAGS = -std=c++11 -Wall -Wextra
 LDFLAGS =
 
-SOURCES = hash.cpp spellcheck.cpp
+SOURCES = sort.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
-EXECUTABLE = spell.exe
+EXECUTABLE = sort.exe
 
 all: $(SOURCES) $(EXECUTABLE)
 
