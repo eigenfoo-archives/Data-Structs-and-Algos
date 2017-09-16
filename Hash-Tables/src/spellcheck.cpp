@@ -82,7 +82,7 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
     State state = inWord;
 
     while (infile.get(ch)) {
-        std::tolower(ch);
+        ch = std::tolower(ch);
 
         switch (state) {
             case inWord:
