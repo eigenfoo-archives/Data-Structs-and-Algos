@@ -15,15 +15,15 @@ HashTable::HashTable(int size) {
 }
 
 int HashTable::insert(const std::string &key, void *pv) {
-    // If key is already in hash table, return 1
+    // If key is already in hash table, failure.
     if (contains(key)) {
         return 1;
     }
-    // Else, insert
     else {
         int pos = this->hash(key) % this->capacity;
 
-        // If position is occupied, linearly probe
+        // If position is occupied, linearly probe until 
+        // unoccupied position is found.
         while (this->data.at(pos).isOccupied) {
             pos++;
             if (pos > this->capacity) {
@@ -38,16 +38,15 @@ int HashTable::insert(const std::string &key, void *pv) {
         item.pv = pv;
         (this->filled)++;
 
-        // If over half full, rehash
+        // If over half full, attempt rehash.
         if (2*(this->filled) > this->capacity) {
-            // If rehash fails, return 2
             if (!this->rehash()) {
                 return 2; 
             }
         }
     }
 
-    // Insertion successful. Return 0
+    // Success.
     return 0;
 }
 
@@ -98,7 +97,7 @@ bool HashTable::remove(const std::string &key) {
 }
 
 unsigned int HashTable::hash(const std::string &key) {
-    // Fowler-Noll-Vo hash function
+    // Fowler-Noll-Vo hash function from
     // https://www.programmingalgorithms.com/algorithm/fnv-hash?lang=C%2B%2B
 	const unsigned int fnv_prime = 0x811C9DC5;
 	unsigned int hash = 0;
@@ -126,11 +125,13 @@ int HashTable::findPos(const std::string &key) {
         }
     }
 
+    // If item is not deleted and keys match, success.
     if (!this->data.at(currentPos).isDeleted &&
             this->data.at(currentPos).key == key) {
         return currentPos;
     }
 
+    // Else, failure.
     return -1;
 }
 
@@ -138,7 +139,7 @@ bool HashTable::rehash() {
     int oldCapacity = this->capacity;
     this->capacity = this->getPrime(2*oldCapacity);
 
-    // If none of our primes are large enough, rehash fails
+    // If none of the primes are large enough, failure.
     if (this->getPrime(2*oldCapacity) == 0) {
         return false;
     }
@@ -152,7 +153,7 @@ bool HashTable::rehash() {
     std::vector<HashItem> dataCopy = this->data;
     this->data.resize(this->capacity, empty);
 
-    // If memory allocation does not proceed as expected, rehash fails
+    // If memory allocation does not proceed as expected, failure.
     if (this->data.size() != this->capacity) {
         return false;
     }
@@ -169,7 +170,7 @@ bool HashTable::rehash() {
 }
 
 int HashTable::getPrime(int size) {
-    // http://planetmath.org/sites/default/files/texpdf/33327.pdf
+    // Primes from http://planetmath.org/sites/default/files/texpdf/33327.pdf
     const static std::vector<int> primes = {
         53, 97, 193, 389, 769, 1543, 3079, 6151, 12289, 24593, 49157, 98317,
         196613, 393241, 786433, 1572869, 3145739, 16291469, 2582917, 25165843,
@@ -178,7 +179,7 @@ int HashTable::getPrime(int size) {
 
     int i = 0;
 
-    // If we don't have a larger prime, return 0
+    // If larger prime not available, failure.
     if (size > primes[25]) {
         return 0;
     }

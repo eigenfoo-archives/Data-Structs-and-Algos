@@ -61,6 +61,8 @@ void openOutputStream(std::ofstream &out) {
     out.open(outname.c_str());
 }
 
+// Loads dictionary line by line. Inserts all lines to hash table
+// (i.e. does not check for digits, etc.)
 void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
     std::string line;
 
@@ -70,6 +72,7 @@ void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
     }
 }
 
+// Spellchecks document.
 void checkDocument(HashTable &hashTable, std::ifstream &infile,
         std::ofstream &outfile) {
     unsigned long lineNumber = 1;
@@ -78,48 +81,46 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
     char ch;
     std::string buffer = "";
 
-    enum State {inWord, betweenWords, flushLongWord};
-    State state = inWord;
+    enum class State {inWord, betweenWords, flushLongWord};
+    State state = State::inWord;
 
     while (infile.get(ch)) {
         ch = std::tolower(ch);
 
         switch (state) {
-            case inWord:
+            case State::inWord:
                 if (validChars.find(ch) != std::string::npos) {
                     if (buffer.length() >= 20) {
                         outfile << "Long word at line " << lineNumber 
                             << ", starts: " << buffer << std::endl;
                         buffer = "";
-                        state = flushLongWord;
+                        state = State::flushLongWord;
                     }
                     else {
                         buffer.push_back(ch);
                     }
                 }
                 else {
-                    //std::cout << buffer << " " << hashTable.contains(buffer)
-                    //    << std::endl;
                     if (!std::any_of(buffer.begin(), buffer.end(), ::isdigit)
                             && !hashTable.contains(buffer)) {
                         outfile << "Unknown word at line " << lineNumber
                             << ": " << buffer << std::endl;
                     }
                     buffer = "";
-                    state = betweenWords;
+                    state = State::betweenWords;
                 }
                 break;
 
-            case betweenWords:
+            case State::betweenWords:
                 if (validChars.find(ch) != std::string::npos) {
                     buffer.push_back(ch);
-                    state = inWord;
+                    state = State::inWord;
                 }
                 break;
 
-            case flushLongWord:
+            case State::flushLongWord:
                 if (validChars.find(ch) == std::string::npos) {
-                    state = betweenWords;
+                    state = State::betweenWords;
                 }
                 break;
 

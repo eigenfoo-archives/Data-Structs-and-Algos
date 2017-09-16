@@ -10,7 +10,7 @@ class HashTable {
     // The constructor initializes the hash table.
     // Uses getPrime to choose a prime number at least as large as
     // the specified size for the initial size of the hash table.
-    HashTable(int size = 0); // from Sable: construct size=100000
+    HashTable(int size = 0);
     
     // Insert the specified key into the hash table.
     // If an optional pointer is provided,
