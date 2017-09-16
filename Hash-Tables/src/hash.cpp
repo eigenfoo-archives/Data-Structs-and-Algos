@@ -1,4 +1,3 @@
-#include <iostream>
 #include "hash.h"
 
 HashTable::HashTable(int size) {
@@ -38,7 +37,6 @@ int HashTable::insert(const std::string &key, void *pv) {
         item.isDeleted = false;
         item.pv = pv;
         (this->filled)++;
-        std::cout << this->data.at(pos).key << std::endl;
 
         // If over half full, rehash
         if (2*(this->filled) > this->capacity) {
@@ -117,20 +115,20 @@ unsigned int HashTable::hash(const std::string &key) {
 
 int HashTable::findPos(const std::string &key) {
     int currentPos = hash(key) % this->capacity;
-    HashItem item = this->data.at(currentPos);
 
-    for ( ; item.key != key; currentPos++) {
+    // Terminates either at the next non-occupied element,
+    // or the position of the specified key.
+    while (this->data.at(currentPos).isOccupied &&
+            this->data.at(currentPos).key != key) {
+        currentPos++;
         if (currentPos >= this->capacity) {
-            currentPos = currentPos % this->capacity;
+            currentPos -= this->capacity;
         }
-        HashItem item = this->data.at(currentPos);
+    }
 
-        if (!item.isOccupied) {
-            break;
-        }
-        else if (!item.isDeleted && item.key == key) {
-            return currentPos; 
-        }
+    if (!this->data.at(currentPos).isDeleted &&
+            this->data.at(currentPos).key == key) {
+        return currentPos;
     }
 
     return -1;
