@@ -73,9 +73,11 @@ void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
 void checkDocument(HashTable &hashTable, std::ifstream &infile,
         std::ofstream &outfile) {
     unsigned long lineNumber = 1;
-    int charNumber = 0;
     std::string validChars = "abcdefghijklmnopqrstuvwxyz0123456789-'";
+
     char ch;
+    std::string buffer = ";
+
     enum State {inWord, betweenWords, flushLongWord};
     State state = inWord;
 
@@ -84,14 +86,42 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
 
         switch (state) {
             case inWord:
-
+                if (validChars.find(ch) != std::string::npos) {
+                    if (buffer.length() >= 20) {
+                        std::cout << "Long word at line " << lineNumber 
+                            << ", starts: " << buffer << endl;
+                        buffer = "";
+                        state = flushLongWord;
+                    }
+                    else {
+                        buffer.append(ch);
+                    }
+                else {
+                    if (std::any_of(buffer.begin(), buffer.end(), ::isdigit)
+                            && !hashTable.contains(buffer) {
+                        std::cout << "Unknown word at line " << lineNumber
+                            << ": " << buffer << endl;
+                    }
+                }
+                break;
 
             case betweenWords:
-
+                if (validChars.find(ch) != std::string::npos) {
+                    buffer.append(ch);
+                    state = inWord;
+                }
+                break;
 
             case flushLongWord:
+                if (validChars.find(ch) == std::string::npos) {
+                    state = betweenWords;
+                }
+                break;
 
+        }
 
+        if (ch == '\n') {
+            lineNumber++;
         }
     }
 }
