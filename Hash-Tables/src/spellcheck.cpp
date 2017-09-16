@@ -73,6 +73,7 @@ void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
 void checkDocument(HashTable &hashTable, std::ifstream &infile,
         std::ofstream &outfile) {
     unsigned long lineNumber = 1;
+    int charNumber = 0;
     std::string validChars = "abcdefghijklmnopqrstuvwxyz0123456789-'";
     char ch;
     enum State {inWord, betweenWords, flushLongWord};
@@ -81,5 +82,16 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
     while (infile.get(ch)) {
         std::tolower(ch);
 
+        switch (state) {
+            case inWord:
+
+
+            case betweenWords:
+
+
+            case flushLongWord:
+
+
+        }
     }
 }
