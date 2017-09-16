@@ -23,13 +23,13 @@ int HashTable::insert(const std::string &key, void *pv) {
     }
     // Else, insert
     else {
-        HashItem temp;
-        temp.key = key;
-        temp.isOccupied = true;
-        temp.isDeleted = false;
-        temp.pv = pv;
+        HashItem &item = this->data.at(pos);
+        item.key = key;
+        item.isOccupied = true;
+        item.isDeleted = false;
+        item.pv = pv;
 
-        this->data.at(pos) = temp;
+        (this->filled)++;
     }
 
     // If over half full, rehash
