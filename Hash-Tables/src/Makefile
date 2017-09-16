@@ -1,7 +1,7 @@
 .PHONY: clean debug run
 
 CC = g++
-CFLAGS = -std=c++11 -Wall 
+CFLAGS = -std=c++11 -Wall
 
 SOURCES = hash.cpp spellcheck.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
