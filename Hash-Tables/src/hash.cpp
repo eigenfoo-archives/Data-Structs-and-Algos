@@ -1,3 +1,4 @@
+#include <iostream>
 #include "hash.h"
 
 HashTable::HashTable(int size) {
@@ -15,32 +16,39 @@ HashTable::HashTable(int size) {
 }
 
 int HashTable::insert(const std::string &key, void *pv) {
-    unsigned int pos = this->findPos(key);
-
     // If key is already in hash table, return 1
-    if (pos == -1) {
+    if (contains(key)) {
         return 1;
     }
     // Else, insert
     else {
+        int pos = this->hash(key) % this->capacity;
+
+        // If position is occupied, linearly probe
+        while (this->data.at(pos).isOccupied) {
+            pos++;
+            if (pos > this->capacity) {
+                pos = pos % this->capacity;
+            }
+        }
+
         HashItem &item = this->data.at(pos);
         item.key = key;
         item.isOccupied = true;
         item.isDeleted = false;
         item.pv = pv;
-
         (this->filled)++;
-    }
 
-    // If over half full, rehash
-    if (2*(this->filled) > this->capacity) {
-        // If rehash fails, return 2
-        if (!this->rehash()) {
-            return 2;
+        // If over half full, rehash
+        if (2*(this->filled) > this->capacity) {
+            // If rehash fails, return 2
+            if (!this->rehash()) {
+                return 2; 
+            }
         }
     }
 
-    // Otherwise, insertion successful. Return 0
+    // Insertion successful. Return 0
     return 0;
 }
 
@@ -53,7 +61,7 @@ bool HashTable::contains(const std::string &key) {
 }
 
 void * HashTable::getPointer(const std::string &key, bool *b) {
-    unsigned int pos = this->findPos(key);
+    int pos = this->findPos(key);
     
     if (b != NULL && pos == -1) {
         *b = false;
@@ -67,7 +75,7 @@ void * HashTable::getPointer(const std::string &key, bool *b) {
 }
 
 int HashTable::setPointer(const std::string &key, void *pv) {
-    unsigned int pos = this->findPos(key);
+    int pos = this->findPos(key);
 
     if (pos == -1) {
         return 1;
@@ -80,7 +88,7 @@ int HashTable::setPointer(const std::string &key, void *pv) {
 }
 
 bool HashTable::remove(const std::string &key) {
-    unsigned int pos = this->findPos(key);
+    int pos = this->findPos(key);
 
     if (pos == -1) {
         return false;
@@ -106,27 +114,25 @@ unsigned int HashTable::hash(const std::string &key) {
 	return hash;
 }
 
-unsigned int HashTable::findPos(const std::string &key) {
-    unsigned int currentPos = hash(key) % this->capacity;
+int HashTable::findPos(const std::string &key) {
+    int currentPos = hash(key) % this->capacity;
+    HashItem item = this->data.at(currentPos);
 
-    // Terminates either at the next non-occupied element,
-    // or the position of the specified key.
-    while (this->data.at(currentPos).isOccupied &&
-            this->data.at(currentPos).key != key) {
-        currentPos++;
+    for ( ; item.key != key; currentPos++) {
         if (currentPos >= this->capacity) {
-            currentPos -= this->capacity;
+            currentPos = currentPos % this->capacity;
+        }
+        HashItem item = this->data.at(currentPos);
+
+        if (!item.isOccupied) {
+            break;
+        }
+        else if (!item.isDeleted && item.key == key) {
+            return currentPos; 
         }
     }
 
-    // If non-occupied or deleted, return -1
-    if (!this->data.at(currentPos).isOccupied ||
-            this->data.at(currentPos).isDeleted) {
-        return -1;
-    }
-
-    // Otherwise, return the position found
-    return currentPos;
+    return -1;
 }
 
 bool HashTable::rehash() {

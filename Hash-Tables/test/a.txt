@@ -19,9 +19,7 @@ Unknown word at line 9: of
 Unknown word at line 9: it
 Unknown word at line 9: is
 Unknown word at line 9: something
-Unknown word at line 9: quite
 Unknown word at line 9: atrocious
-Unknown word at line 10: if
 Unknown word at line 10: you
 Unknown word at line 10: say
 Unknown word at line 10: it
@@ -43,7 +41,6 @@ Unknown word at line 18: supercali
 Unknown word at line 19: super
 Unknown word at line 19: supercalifragi
 Unknown word at line 21: so
-Unknown word at line 21: when
 Unknown word at line 21: the
 Unknown word at line 21: cat
 Unknown word at line 21: has
@@ -55,9 +52,7 @@ Unknown word at line 21: no
 Unknown word at line 21: need
 Unknown word at line 21: for
 Unknown word at line 21: dismay
-Unknown word at line 22: just
 Unknown word at line 22: summon
-Unknown word at line 22: up
 Unknown word at line 22: this
 Unknown word at line 22: word
 Unknown word at line 22: and
@@ -66,14 +61,12 @@ Unknown word at line 22: you've
 Unknown word at line 22: got
 Unknown word at line 22: a
 Unknown word at line 22: lot
-Unknown word at line 22: to
 Unknown word at line 22: say
 Unknown word at line 23: but
 Unknown word at line 23: better
 Unknown word at line 23: use
 Unknown word at line 23: it
 Unknown word at line 23: carefully
-Unknown word at line 23: or
 Unknown word at line 23: it
 Unknown word at line 23: can
 Unknown word at line 23: change
@@ -87,7 +80,6 @@ Unknown word at line 29: day
 Unknown word at line 29: i
 Unknown word at line 29: said
 Unknown word at line 29: it
-Unknown word at line 29: to
 Unknown word at line 29: me
 Unknown word at line 29: girl
 Unknown word at line 29: and
@@ -105,9 +97,7 @@ Unknown word at line 32: of
 Unknown word at line 32: it
 Unknown word at line 32: is
 Unknown word at line 32: something
-Unknown word at line 32: quite
 Unknown word at line 32: atrocious
-Unknown word at line 33: if
 Unknown word at line 33: you
 Unknown word at line 33: say
 Unknown word at line 33: it
@@ -127,9 +117,7 @@ Unknown word at line 37: of
 Unknown word at line 37: it
 Unknown word at line 37: is
 Unknown word at line 37: something
-Unknown word at line 37: quite
 Unknown word at line 37: atrocious
-Unknown word at line 38: if
 Unknown word at line 38: you
 Unknown word at line 38: say
 Unknown word at line 38: it
@@ -149,9 +137,7 @@ Unknown word at line 42: of
 Unknown word at line 42: it
 Unknown word at line 42: is
 Unknown word at line 42: something
-Unknown word at line 42: quite
 Unknown word at line 42: atrocious
-Unknown word at line 43: if
 Unknown word at line 43: you
 Unknown word at line 43: say
 Unknown word at line 43: it
