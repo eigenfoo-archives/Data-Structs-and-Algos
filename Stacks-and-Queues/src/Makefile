@@ -1,7 +1,7 @@
 .PHONY: clean debug run
 
-CC = g++
-CFLAGS = -std=c++11 -Wall -Wextra
+CXX = g++
+CXXFLAGS = -std=c++11 -Wall -Wextra
 LDFLAGS =
 
 SOURCES = main.cpp
@@ -11,16 +11,16 @@ EXECUTABLE = main.exe
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJECTS) $(LDFLAGS)
 
 .cpp.o:
-	$(CC) $(CFLAGS) -c $<
+	$(CXX) $(CXXFLAGS) -c $<
 
 clean:
 	rm -rf $(EXECUTABLE) $(OBJECTS) debug.exe *.stackdump *~ *.dSYM/
 
 debug:
-	$(CC) $(CFLAGS) -g -o debug.exe $(SOURCES)
+	$(CXX) $(CXXFLAGS) -g -o debug.exe $(SOURCES)
 
 run:
 	./$(EXECUTABLE)
