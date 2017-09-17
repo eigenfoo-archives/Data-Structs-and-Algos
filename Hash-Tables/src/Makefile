@@ -1,7 +1,7 @@
 .PHONY: clean debug run
 
 CC = g++
-CFLAGS = -std=c++11 -Wall -Wextra
+CFLAGS = -std=c++11 -Wall
 LDFLAGS =
 
 SOURCES = hash.cpp spellcheck.cpp
