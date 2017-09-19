@@ -38,6 +38,7 @@ int main() {
     std::cout << "Total time (in seconds) to check document: "
         << timeDiff << std::endl;
 
+    dictionary.close();
     infile.close();
     outfile.close();
 
