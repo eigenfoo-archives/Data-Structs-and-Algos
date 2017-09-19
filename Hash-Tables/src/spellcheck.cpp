@@ -37,6 +37,11 @@ int main() {
     timeDiff = ((double) (t2 - t1)) / CLOCKS_PER_SEC;
     std::cout << "Total time (in seconds) to check document: "
         << timeDiff << std::endl;
+
+    infile.close();
+    outfile.close();
+
+    return 0;
 }
 
 //  Prompts the user for the dictionary or input file and opens the
