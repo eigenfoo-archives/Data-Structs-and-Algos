@@ -1,6 +1,14 @@
+/*
+ * Data Structures and Algorithms II Assignment #1: Hash Tables
+ * George Ho, Fall 2017
+ * 
+ * This code implements a hash table class with linear probing and rehashing.
+*/
+
 #include <iostream>
 #include "hash.h"
 
+// Hash table constructor.
 HashTable::HashTable(int size) {
     int tableSize = getPrime(size);
     this->capacity = tableSize;
@@ -15,8 +23,8 @@ HashTable::HashTable(int size) {
     this->data.resize(tableSize, empty);
 }
 
+// Insert an item into the hash table.
 int HashTable::insert(const std::string &key, void *pv) {
-    // If key is already in hash table, failure.
     if (contains(key)) {
         return 1;
     }
@@ -51,6 +59,7 @@ int HashTable::insert(const std::string &key, void *pv) {
     return 0;
 }
 
+// Check if the hash table contains an item.
 bool HashTable::contains(const std::string &key) {
     if (this->findPos(key) == -1) {
         return false;
@@ -59,6 +68,7 @@ bool HashTable::contains(const std::string &key) {
     return true;
 }
 
+// Get the pointer associated with a certain key.
 void * HashTable::getPointer(const std::string &key, bool *b) {
     int pos = this->findPos(key);
     
@@ -73,6 +83,7 @@ void * HashTable::getPointer(const std::string &key, bool *b) {
     return this->data.at(pos).pv;
 }
 
+// Changes the pointer associated with a certain key.
 int HashTable::setPointer(const std::string &key, void *pv) {
     int pos = this->findPos(key);
 
@@ -86,6 +97,7 @@ int HashTable::setPointer(const std::string &key, void *pv) {
     return 0;
 }
 
+// Lazily deletes an entry from the hash table.
 bool HashTable::remove(const std::string &key) {
     int pos = this->findPos(key);
 
@@ -97,9 +109,9 @@ bool HashTable::remove(const std::string &key) {
    return true;
 }
 
+// Fowler-Noll-Vo hash function from
+// https://www.programmingalgorithms.com/algorithm/fnv-hash?lang=C%2B%2B
 unsigned int HashTable::hash(const std::string &key) {
-    // Fowler-Noll-Vo hash function from
-    // https://www.programmingalgorithms.com/algorithm/fnv-hash?lang=C%2B%2B
 	const unsigned int fnv_prime = 0x811C9DC5;
 	unsigned int hash = 0;
 	unsigned int i = 0;
@@ -113,6 +125,8 @@ unsigned int HashTable::hash(const std::string &key) {
 	return hash;
 }
 
+// Member function to find the position of a certain key in a hash table.
+// Used by several public member functions.
 int HashTable::findPos(const std::string &key) {
     int currentPos = hash(key) % this->capacity;
 
@@ -136,6 +150,7 @@ int HashTable::findPos(const std::string &key) {
     return -1;
 }
 
+// Rehashes the hash table.
 bool HashTable::rehash() {
     int oldCapacity = this->capacity;
     this->capacity = this->getPrime(2*oldCapacity);
@@ -170,6 +185,8 @@ bool HashTable::rehash() {
     return true;
 }
 
+// Returns a prime number larger than the number fed in.
+// Used by the rehash member function.
 int HashTable::getPrime(int size) {
     // Primes from http://planetmath.org/sites/default/files/texpdf/33327.pdf
     const static std::vector<int> primes = {

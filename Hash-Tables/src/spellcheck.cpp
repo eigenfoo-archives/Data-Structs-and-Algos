@@ -1,3 +1,10 @@
+/*
+ * Data Structures and Algorithms Assignment #2: Sorting
+ * George Ho, Spring 2017
+ *
+ * This code identifies the test case, applying mergesort for T1, T2, counting
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -45,8 +52,8 @@ int main() {
     return 0;
 }
 
-//  Prompts the user for the dictionary or input file and opens the
-//  file for reading
+//  Prompts the user for the dictionary or input file and opens the file for
+//  reading.
 void openInputStream(std::ifstream &in, bool openDict) {
     std::string inname;
     if (openDict) {
@@ -59,7 +66,7 @@ void openInputStream(std::ifstream &in, bool openDict) {
     in.open(inname.c_str());
 }
 
-//  Prompts the user for an output file and opens the file for writing
+//  Prompts the user for an output file and opens the file for writing.
 void openOutputStream(std::ofstream &out) {
     std::string outname;
     std::cout << "Enter name of output file: ";
@@ -67,8 +74,8 @@ void openOutputStream(std::ofstream &out) {
     out.open(outname.c_str());
 }
 
-// Loads dictionary line by line. Inserts all lines to hash table
-// (i.e. does not check for digits, etc.)
+// Loads dictionary line by line. Inserts all lines to hash table (i.e. does
+// not ignore words with digits, etc.).
 void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
     std::string line;
 
