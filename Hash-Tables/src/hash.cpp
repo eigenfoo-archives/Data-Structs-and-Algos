@@ -35,7 +35,7 @@ int HashTable::insert(const std::string &key, void *pv) {
         // unoccupied position is found.
         while (this->data.at(pos).isOccupied) {
             pos++;
-            if (pos > this->capacity) {
+            if (pos >= this->capacity) {
                 pos = pos % this->capacity;
             }
         }
