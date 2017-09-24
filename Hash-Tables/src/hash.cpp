@@ -50,14 +50,12 @@ int HashTable::insert(const std::string &key, void *pv) {
         (this->filled)++;
     }
 
-    // If over half full, attempt rehash.
     if (2*(this->filled) > this->capacity) {
         if (!this->rehash()) {
             return 2; 
         }
     }
 
-    // Success.
     return 0;
 }
 
@@ -111,7 +109,7 @@ bool HashTable::remove(const std::string &key) {
    return true;
 }
 
-// Fowler-Noll-Vo hash function from
+// Fowler-Noll-Vo hash function
 // https://www.programmingalgorithms.com/algorithm/fnv-hash?lang=C%2B%2B
 unsigned int HashTable::hash(const std::string &key) {
 	const unsigned int fnv_prime = 0x811C9DC5;
@@ -189,8 +187,8 @@ bool HashTable::rehash() {
 
 // Returns a prime number larger than the number fed in.
 // Used by the rehash member function.
+// http://planetmath.org/sites/default/files/texpdf/33327.pdf
 int HashTable::getPrime(int size) {
-    // Primes from http://planetmath.org/sites/default/files/texpdf/33327.pdf
     const static std::vector<int> primes = {
         53, 97, 193, 389, 769, 1543, 3079, 6151, 12289, 24593, 49157, 98317,
         196613, 393241, 786433, 1572869, 3145739, 16291469, 2582917, 25165843,
