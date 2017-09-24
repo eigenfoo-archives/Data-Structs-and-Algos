@@ -1,5 +1,5 @@
-#ifndef _HASH_HPP
-#define _HASH_HPP
+#ifndef _HASH_H
+#define _HASH_H
 
 #include <vector>
 #include <string>
@@ -79,4 +79,4 @@ class HashTable {
     static int getPrime(int size);
 };
 
-#endif //_HASH_HPP
+#endif //_HASH_H

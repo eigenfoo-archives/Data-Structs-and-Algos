@@ -3,7 +3,7 @@
  * George Ho, Fall 2017
  * 
  * This code implements a hash table class with linear probing and rehashing.
-*/
+ */
 
 #include <iostream>
 #include "hash.h"
@@ -25,33 +25,35 @@ HashTable::HashTable(int size) {
 
 // Insert an item into the hash table.
 int HashTable::insert(const std::string &key, void *pv) {
-    if (contains(key)) {
+    int currentPos = hash(key) % this->capacity;
+
+    // Terminates either at the next non-occupied element,
+    // or the position of the specified key.
+    while (this->data.at(currentPos).isOccupied &&
+            this->data.at(currentPos).key != key) {
+        currentPos++;
+        if (currentPos == this->capacity) {
+            currentPos = 0;
+        }
+    }
+
+    if (!this->data.at(currentPos).isDeleted &&
+            this->data.at(currentPos).key == key) {
         return 1;
     }
     else {
-        int pos = this->hash(key) % this->capacity;
-
-        // If position is occupied, linearly probe until 
-        // unoccupied position is found.
-        while (this->data.at(pos).isOccupied) {
-            pos++;
-            if (pos >= this->capacity) {
-                pos = pos % this->capacity;
-            }
-        }
-
-        HashItem &item = this->data.at(pos);
+        HashItem &item = this->data.at(currentPos);
         item.key = key;
         item.isOccupied = true;
         item.isDeleted = false;
         item.pv = pv;
         (this->filled)++;
+    }
 
-        // If over half full, attempt rehash.
-        if (2*(this->filled) > this->capacity) {
-            if (!this->rehash()) {
-                return 2; 
-            }
+    // If over half full, attempt rehash.
+    if (2*(this->filled) > this->capacity) {
+        if (!this->rehash()) {
+            return 2; 
         }
     }
 
@@ -135,8 +137,8 @@ int HashTable::findPos(const std::string &key) {
     while (this->data.at(currentPos).isOccupied &&
             this->data.at(currentPos).key != key) {
         currentPos++;
-        if (currentPos >= this->capacity) {
-            currentPos -= this->capacity;
+        if (currentPos == this->capacity) {
+            currentPos = 0;
         }
     }
 
@@ -156,7 +158,7 @@ bool HashTable::rehash() {
     this->capacity = this->getPrime(2*oldCapacity);
 
     // If none of the primes are large enough, failure.
-    if (this->getPrime(2*oldCapacity) == 0) {
+    if (this->capacity == 0) {
         return false;
     }
 
@@ -182,6 +184,8 @@ bool HashTable::rehash() {
         }
     }
 
+    std::cout << "Rehashed! " << oldCapacity << " "
+        << this->capacity << std::endl;
     return true;
 }
 

@@ -3,7 +3,7 @@
  * George Ho, Spring 2017
  *
  * This code identifies the test case, applying mergesort for T1, T2, counting
-*/
+ */
 
 #include <iostream>
 #include <fstream>
@@ -80,6 +80,7 @@ void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
     std::string line;
 
     while (std::getline(dictionary, line)) {
+        //std::for_each(line.begin(), line.end(), ::tolower);
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
         hashTable.insert(line);
     }
@@ -89,7 +90,6 @@ void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
 void checkDocument(HashTable &hashTable, std::ifstream &infile,
         std::ofstream &outfile) {
     unsigned long lineNumber = 1;
-    std::string validChars = "abcdefghijklmnopqrstuvwxyz0123456789-'";
 
     char ch;
     std::string buffer = "";
@@ -102,7 +102,8 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
 
         switch (state) {
             case State::inWord:
-                if (validChars.find(ch) != std::string::npos) {
+                if (((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
+                            || (ch==39) || (ch==45)) {
                     if (buffer.length() >= 20) {
                         outfile << "Long word at line " << lineNumber 
                             << ", starts: " << buffer << std::endl;
@@ -125,14 +126,16 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
                 break;
 
             case State::betweenWords:
-                if (validChars.find(ch) != std::string::npos) {
+                if (((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
+                            || (ch==39) || (ch==45)) {
                     buffer.push_back(ch);
                     state = State::inWord;
                 }
                 break;
 
             case State::flushLongWord:
-                if (validChars.find(ch) == std::string::npos) {
+                if (((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
+                            || (ch==39) || (ch==45)) {
                     state = State::betweenWords;
                 }
                 break;
