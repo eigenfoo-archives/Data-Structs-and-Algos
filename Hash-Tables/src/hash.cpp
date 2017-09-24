@@ -184,8 +184,6 @@ bool HashTable::rehash() {
         }
     }
 
-    std::cout << "Rehashed! " << oldCapacity << " "
-        << this->capacity << std::endl;
     return true;
 }
 
