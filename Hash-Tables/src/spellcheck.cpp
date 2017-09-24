@@ -102,8 +102,8 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
 
         switch (state) {
             case State::inWord:
-                if (((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
-                            || (ch==39) || (ch==45)) {
+                if ((((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
+                            || (ch==39) || (ch==45))) {
                     if (buffer.length() >= 20) {
                         outfile << "Long word at line " << lineNumber 
                             << ", starts: " << buffer << std::endl;
@@ -126,16 +126,16 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
                 break;
 
             case State::betweenWords:
-                if (((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
-                            || (ch==39) || (ch==45)) {
+                if ((((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
+                            || (ch==39) || (ch==45))) {
                     buffer.push_back(ch);
                     state = State::inWord;
                 }
                 break;
 
             case State::flushLongWord:
-                if (((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
-                            || (ch==39) || (ch==45)) {
+                if (!(((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
+                            || (ch==39) || (ch==45))) {
                     state = State::betweenWords;
                 }
                 break;
