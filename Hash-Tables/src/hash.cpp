@@ -112,17 +112,17 @@ bool HashTable::remove(const std::string &key) {
 // Fowler-Noll-Vo hash function
 // https://www.programmingalgorithms.com/algorithm/fnv-hash?lang=C%2B%2B
 unsigned int HashTable::hash(const std::string &key) {
-	const unsigned int fnv_prime = 0x811C9DC5;
-	unsigned int hash = 0;
-	unsigned int i = 0;
-	unsigned int len = key.length();
+    const unsigned int fnv_prime = 0x811C9DC5;
+    unsigned int hash = 0;
+    unsigned int i = 0;
+    unsigned int len = key.length();
 
-	for (i = 0; i < len; i++) {
-		hash *= fnv_prime;
-		hash ^= (key[i]);
-	}
+    for (i = 0; i < len; i++) {
+        hash *= fnv_prime;
+        hash ^= (key[i]);
+    }
 
-	return hash;
+    return hash;
 }
 
 // Member function to find the position of a certain key in a hash table.
@@ -160,19 +160,25 @@ bool HashTable::rehash() {
         return false;
     }
 
-    HashItem empty;
-    empty.key = "";
-    empty.isOccupied = false;
-    empty.isDeleted = false;
-    empty.pv = nullptr;
-
     std::vector<HashItem> dataCopy = this->data;
-    this->data.resize(this->capacity, empty);
+    this->data.resize(this->capacity);
 
     // If memory allocation does not proceed as expected, failure.
     if (this->data.size() != this->capacity) {
         return false;
     }
+
+    // Set all elements of data to an empty HashItem
+    // std::vector::resize would merely initialize the NEW items to empty
+    for (int i = 0; i < this->capacity; i++) {
+        HashItem &item = this->data.at(i);
+        item.key = "";
+        item.isOccupied = false;
+        item.isDeleted = false;
+        item.pv = nullptr;
+    }
+ 
+    this->filled = 0;
 
     for (int i = 0; i < oldCapacity; i++) {
         HashItem temp = dataCopy.at(i);
