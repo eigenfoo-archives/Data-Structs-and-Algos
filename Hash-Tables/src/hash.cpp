@@ -23,7 +23,8 @@ HashTable::HashTable(int size) {
     this->data.resize(tableSize, empty);
 }
 
-// Insert an item into the hash table.
+// Insert an item into the hash table. Code from findPos is almost duplicated,
+// so as to avoid a possibly quadratic-time member function
 int HashTable::insert(const std::string &key, void *pv) {
     int currentPos = hash(key) % this->capacity;
 
@@ -140,13 +141,11 @@ int HashTable::findPos(const std::string &key) {
         }
     }
 
-    // If item is not deleted and keys match, success.
     if (!this->data.at(currentPos).isDeleted &&
             this->data.at(currentPos).key == key) {
         return currentPos;
     }
 
-    // Else, failure.
     return -1;
 }
 
@@ -168,8 +167,8 @@ bool HashTable::rehash() {
         return false;
     }
 
-    // Set all elements of data to an empty HashItem
-    // std::vector::resize would merely initialize the NEW items to empty
+    // Set all elements of data to an empty HashItem std::vector::resize would
+    // merely initialize the _new_ items to an empty HashItem
     for (int i = 0; i < this->capacity; i++) {
         HashItem &item = this->data.at(i);
         item.key = "";

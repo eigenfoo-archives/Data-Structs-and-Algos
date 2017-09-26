@@ -1,8 +1,8 @@
 /*
- * Data Structures and Algorithms Assignment #2: Sorting
- * George Ho, Spring 2017
- *
- * This code identifies the test case, applying mergesort for T1, T2, counting
+ * Data Structures and Algorithms II Assignment #1: Hash Tables
+ * George Ho, Fall 2017
+ * 
+ * This code implements the main spell checking program.
  */
 
 #include <iostream>
@@ -17,6 +17,7 @@ void openOutputStream(std::ofstream &out);
 void loadDictionary(HashTable &hashTable, std::ifstream &dictionary);
 void checkDocument(HashTable &hashTable, std::ifstream &infile,
         std::ofstream &outfile);
+bool isValidChar(char ch);
 
 int main() {
     HashTable hashTable(100000);
@@ -80,7 +81,6 @@ void loadDictionary(HashTable &hashTable, std::ifstream &dictionary) {
     std::string line;
 
     while (std::getline(dictionary, line)) {
-        //std::for_each(line.begin(), line.end(), ::tolower);
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
         hashTable.insert(line);
     }
@@ -102,8 +102,7 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
 
         switch (state) {
             case State::inWord:
-                if ((((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
-                            || (ch==39) || (ch==45))) {
+                if (isValidChar(ch)) {
                     if (buffer.length() >= 20) {
                         outfile << "Long word at line " << lineNumber 
                             << ", starts: " << buffer << std::endl;
@@ -126,16 +125,14 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
                 break;
 
             case State::betweenWords:
-                if ((((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
-                            || (ch==39) || (ch==45))) {
+                if (isValidChar(ch)) {
                     buffer.push_back(ch);
                     state = State::inWord;
                 }
                 break;
 
             case State::flushLongWord:
-                if (!(((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
-                            || (ch==39) || (ch==45))) {
+                if (!isValidChar(ch)) {
                     state = State::betweenWords;
                 }
                 break;
@@ -146,4 +143,11 @@ void checkDocument(HashTable &hashTable, std::ifstream &infile,
             lineNumber++;
         }
     }
+}
+
+// Checks if the given character is a lowercase letter, a numerical digit, a
+// hyphen or an apostrophe.
+bool isValidChar(char ch) {
+    return (((ch>=97) && (ch<=122)) || ((ch>=48) && (ch<=57))
+            || (ch==39) || (ch==45));
 }
