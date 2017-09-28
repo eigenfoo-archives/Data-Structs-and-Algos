@@ -1,5 +1,4 @@
 #include <vector>
-#include "hash.h"
 #include "heap.h"
 
 Heap::Heap(int capacity) {
