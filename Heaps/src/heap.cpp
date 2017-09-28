@@ -28,14 +28,14 @@ int heap::insert(const std::string &id, int key, void *pv) {
         return 2;
     }
 
-    node n;
-    n.id = id;
-    n.key = key;
-    n.pData = pv;
+    node newNode;
+    newNode.id = id;
+    newNode.key = key;
+    newNode.pData = pv;
 
     // Order of the next 2 lines matter: we ignore data.at(0)!
     this->size++;
-    this->data.at(size) = n;
+    this->data.at(size) = newNode;
 
     node *ptr = &(this->data.at(size));
     mapping.insert(id, ptr);

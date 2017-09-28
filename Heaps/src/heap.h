@@ -81,8 +81,8 @@ class heap {
                 void *pData;       // A pointer to the actual data
         };
 
-        int capacity;
-        int size;
+        int capacity;              // Total capacity of heap
+        int size;                  // Current number of items in heap
 
         std::vector<node> data;    // The actual binary heap
         HashTable mapping;         // Maps ids to node pointers
