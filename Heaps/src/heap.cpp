@@ -1,5 +1,5 @@
 /*
- * Data Structures and Algorithms II Assignment #2: heaps
+ * Data Structures and Algorithms II Assignment #2: Heaps
  * George Ho, Fall 2017
  * 
  * This code implements a priority queue using a binary heap implementation
@@ -45,6 +45,24 @@ int heap::insert(const std::string &id, int key, void *pv) {
 }
 
 int heap::setKey(const std::string &id, int key) {
+    bool b = true;
+    node *pNode = static_cast<node *>(this->mapping.getPointer(id, &b));
+
+    if (!b) {
+        return 1;
+    }
+
+    int oldKey = pNode->key;
+    pNode->key = key;
+
+    int index = this->getPos(pNode);
+    if (oldKey < key) {
+        this->percolateDown(index);
+    }
+    else if (oldKey > key) {
+        this->percolateUp(index);
+    }
+
     return 0;
 }
 
@@ -64,21 +82,23 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     }
     
     if (ppData != NULL) {
-        ppData = &minNode.pData;
+        *(static_cast<void **> (ppData)) = minNode.pData;
     }
 
-    minNode = this->data.at(this->size);
+    this->data.at(1) = this->data.at(this->size);
     this->size--;
     percolateDown(1);
+
+    this->mapping.remove(minNode.id);
 
     return 0;
 }
 
 int heap::remove(const std::string &id, int *pKey, void *ppData) {
-    bool *b = nullptr;
-    node *pNode = static_cast<node *>(mapping.getPointer(id, b));
+    bool b = true;
+    node *pNode = static_cast<node *>(mapping.getPointer(id, &b));
 
-    if (!*b) {
+    if (!b) {
         return 1;
     }
 
@@ -105,17 +125,56 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
         percolateDown(getPos(pNode));
     }
 
-    mapping.remove(id);
+    this->mapping.remove(id);
 
     return 0;
 }
 
 void heap::percolateUp(int currentPos) {
+    int parent = 0;
+    node temp = this->data.at(currentPos);
 
+    for ( ; parent < this->size; currentPos = parent) {
+        parent = currentPos/2;    // C++ integer division
+
+        if (temp.key < this->data.at(parent).key) {
+            this->data.at(currentPos) = this->data.at(parent);
+        }
+        else {
+            break;
+        }
+    }
+
+    this->data.at(currentPos) = temp;
+
+    this->mapping.setPointer(this->data.at(currentPos).id,
+            &(this->data.at(currentPos)));
 }
 
 void heap::percolateDown(int currentPos) {
+    int child = 0;
+    node temp = this->data.at(currentPos);
 
+    for ( ; child < this->size; currentPos = child) {
+        child = 2*currentPos;
+
+        if (child != this->size
+                && this->data.at(child).key < this->data.at(child+1).key) {
+            child++;
+        }
+
+        if (temp.key > this->data.at(child).key) {
+            this->data.at(currentPos) = this->data.at(child);
+        }
+        else {
+            break;
+        }
+    }
+
+    this->data.at(currentPos) = temp;
+
+    this->mapping.setPointer(this->data.at(currentPos).id,
+            &(this->data.at(currentPos)));
 }
 
 int heap::getPos(node *pNode) {

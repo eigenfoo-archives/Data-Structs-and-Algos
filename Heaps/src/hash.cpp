@@ -72,13 +72,17 @@ bool HashTable::contains(const std::string &key) {
 // Get the pointer associated with a certain key.
 void * HashTable::getPointer(const std::string &key, bool *b) {
     int pos = this->findPos(key);
-    
-    if (b != NULL && pos == -1) {
-        *b = false;
+
+    if (pos == -1) {
+        if (b != NULL) {
+            *b = false;
+        }
         return NULL;
     }
     else {
-        *b = true;
+        if (b != NULL) {
+            *b = true;
+        }
     }
 
     return this->data.at(pos).pv;
