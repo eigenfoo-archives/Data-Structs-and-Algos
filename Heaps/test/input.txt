@@ -1,0 +1,43 @@
+500
+1
+string one
+35
+1
+string two
+55
+1
+string three
+45
+1
+string four
+5
+1
+string two
+10
+1
+string five
+80
+1
+string six
+20
+1
+string seven
+70
+4
+3
+string four
+4
+2
+string one
+50
+3
+string two
+4
+4
+2
+string five
+60
+4
+4
+4
+5
