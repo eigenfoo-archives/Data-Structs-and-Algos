@@ -134,19 +134,29 @@ void heap::percolateUp(int currentPos) {
     int parent = 0;
     node temp = this->data.at(currentPos);
 
-    for ( ; parent < this->size; currentPos = parent) {
-        parent = currentPos/2;    // C++ integer division
+    while (currentPos > 1) {
+        parent = currentPos/2;    // C++ integer division 
 
+        // If parent is larger than temp
         if (temp.key < this->data.at(parent).key) {
+            // Bring parent down to hole
             this->data.at(currentPos) = this->data.at(parent);
+            // Update hash table pointer
+            this->mapping.setPointer(this->data.at(currentPos).id,
+                    &(this->data.at(currentPos)));
         }
         else {
+            // Hole is in the right place
             break;
         }
+
+        // Move hole up to where the parent used to be
+        currentPos = parent;
     }
 
+    // Either the parent is less than or equal to temp, or we are at
+    // the root. Either way, currentPos is where temp should go.
     this->data.at(currentPos) = temp;
-
     this->mapping.setPointer(this->data.at(currentPos).id,
             &(this->data.at(currentPos)));
 }
@@ -155,24 +165,37 @@ void heap::percolateDown(int currentPos) {
     int child = 0;
     node temp = this->data.at(currentPos);
 
-    for ( ; child < this->size; currentPos = child) {
+    while (2*currentPos <= this->size) {
         child = 2*currentPos;
 
-        if (child != this->size
-                && this->data.at(child).key < this->data.at(child+1).key) {
+        // If there is another child, check if it is smaller.
+        // If so, use it for the comparison.
+        if (child < this->size
+                && this->data.at(child).key > this->data.at(child+1).key) {
             child++;
         }
 
+        // If smaller child is smaller than temp
         if (temp.key > this->data.at(child).key) {
+            // Bring smaller child up to hole
             this->data.at(currentPos) = this->data.at(child);
+            // Update hash table pointer
+            this->mapping.setPointer(this->data.at(currentPos).id,
+                    &(this->data.at(currentPos)));
         }
         else {
+            // Hole is in the right place
             break;
         }
+
+        // Move hole down to where the smaller child used to be
+        currentPos = child;
     }
 
+    // Either the smaller child is greater than or equal to temp,
+    // or there are no children at all. Either way, currentPos is 
+    // where temp should go.
     this->data.at(currentPos) = temp;
-
     this->mapping.setPointer(this->data.at(currentPos).id,
             &(this->data.at(currentPos)));
 }

@@ -76,29 +76,19 @@
 < 
 ---
 > Choose an option: 
-133c103
-< Deleted item with string id "string six" and key 20
----
-> Deleted item with string id "string one" and key 35
-141,145c111,112
+141,144c111
 < Choose an option: 2
 < Enter an id string (to change its key): string one
 < Enter an associated integer key: 50
 < 
-< Call to 'setKey' returned: 0
 ---
 > Choose an option: Enter an id string (to change its key): Enter an associated integer key: 
-> Call to 'setKey' returned: 1
 153,155c120
 < Choose an option: 3
 < Enter an id string (to delete): string two
 < 
 ---
 > Choose an option: Enter an id string (to delete): 
-158c123
-< Deleted item with string id "string two" and key 55
----
-> Deleted item with string id "string two" and key 70
 166,167c131
 < Choose an option: 4
 < 
@@ -109,10 +99,6 @@
 < 
 ---
 > Choose an option: 
-182c145
-< Deleted item with string id "string one" and key 50
----
-> Deleted item with string id "string two" and key 55
 190,193c153
 < Choose an option: 2
 < Enter an id string (to change its key): string five
@@ -127,19 +113,11 @@
 < 
 ---
 > Choose an option: 
-207c165
-< Deleted item with string id "string five" and key 60
----
-> Deleted item with string id "string six" and key 20
 215,216c173
 < Choose an option: 4
 < 
 ---
 > Choose an option: 
-219c176
-< Deleted item with string id "string seven" and key 70
----
-> Deleted item with string id "string five" and key 60
 227,228c184
 < Choose an option: 4
 < 
