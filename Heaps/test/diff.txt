@@ -1,0 +1,130 @@
+1,3c1
+< $ ./useHeap.exe
+< Choose a capacity for the binary heap: 500
+< 
+---
+> Choose a capacity for the binary heap: 
+10,13c8
+< Choose an option: 1
+< Enter an id string (to insert): string one
+< Enter an associated integer key: 35
+< 
+---
+> Choose an option: Enter an id string (to insert): Enter an associated integer key: 
+22,25c17
+< Choose an option: 1
+< Enter an id string (to insert): string two
+< Enter an associated integer key: 55
+< 
+---
+> Choose an option: Enter an id string (to insert): Enter an associated integer key: 
+34,37c26
+< Choose an option: 1
+< Enter an id string (to insert): string three
+< Enter an associated integer key: 45
+< 
+---
+> Choose an option: Enter an id string (to insert): Enter an associated integer key: 
+46,49c35
+< Choose an option: 1
+< Enter an id string (to insert): string four
+< Enter an associated integer key: 5
+< 
+---
+> Choose an option: Enter an id string (to insert): Enter an associated integer key: 
+58,61c44
+< Choose an option: 1
+< Enter an id string (to insert): string two
+< Enter an associated integer key: 10
+< 
+---
+> Choose an option: Enter an id string (to insert): Enter an associated integer key: 
+70,73c53
+< Choose an option: 1
+< Enter an id string (to insert): string five
+< Enter an associated integer key: 80
+< 
+---
+> Choose an option: Enter an id string (to insert): Enter an associated integer key: 
+82,85c62
+< Choose an option: 1
+< Enter an id string (to insert): string six
+< Enter an associated integer key: 20
+< 
+---
+> Choose an option: Enter an id string (to insert): Enter an associated integer key: 
+94,97c71
+< Choose an option: 1
+< Enter an id string (to insert): string seven
+< Enter an associated integer key: 70
+< 
+---
+> Choose an option: Enter an id string (to insert): Enter an associated integer key: 
+106,107c80
+< Choose an option: 4
+< 
+---
+> Choose an option: 
+118,120c91
+< Choose an option: 3
+< Enter an id string (to delete): string four
+< 
+---
+> Choose an option: Enter an id string (to delete): 
+129,130c100
+< Choose an option: 4
+< 
+---
+> Choose an option: 
+141,144c111
+< Choose an option: 2
+< Enter an id string (to change its key): string one
+< Enter an associated integer key: 50
+< 
+---
+> Choose an option: Enter an id string (to change its key): Enter an associated integer key: 
+153,155c120
+< Choose an option: 3
+< Enter an id string (to delete): string two
+< 
+---
+> Choose an option: Enter an id string (to delete): 
+166,167c131
+< Choose an option: 4
+< 
+---
+> Choose an option: 
+178,179c142
+< Choose an option: 4
+< 
+---
+> Choose an option: 
+190,193c153
+< Choose an option: 2
+< Enter an id string (to change its key): string five
+< Enter an associated integer key: 60
+< 
+---
+> Choose an option: Enter an id string (to change its key): Enter an associated integer key: 
+196d155
+< 
+203,204c162
+< Choose an option: 4
+< 
+---
+> Choose an option: 
+215,216c173
+< Choose an option: 4
+< 
+---
+> Choose an option: 
+227,228c184
+< Choose an option: 4
+< 
+---
+> Choose an option: 
+237,238c193
+< Choose an option: 5
+< 
+---
+> Choose an option: 

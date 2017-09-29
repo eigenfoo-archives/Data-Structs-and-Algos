@@ -7,6 +7,7 @@
 
 #include "heap.h"
 
+// Heap constructor
 heap::heap(int capacity) {
     this->capacity = capacity;
     this->size = 0;
@@ -20,6 +21,7 @@ heap::heap(int capacity) {
     mapping = HashTable(2*capacity);
 }
 
+// Inserts a node into the heap
 int heap::insert(const std::string &id, int key, void *pv) {
     if (this->size >= this->capacity) {
         return 1;
@@ -44,6 +46,7 @@ int heap::insert(const std::string &id, int key, void *pv) {
     return 0;
 }
 
+// Sets key of the node associated with the unique string id
 int heap::setKey(const std::string &id, int key) {
     bool b = true;
     node *pNode = static_cast<node *>(this->mapping.getPointer(id, &b));
@@ -66,6 +69,7 @@ int heap::setKey(const std::string &id, int key) {
     return 0;
 }
 
+// Deletes node associated with the minimum key
 int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     if (this->size == 0) {
         return 1;
@@ -94,6 +98,7 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     return 0;
 }
 
+// Removes node associated with the given string id
 int heap::remove(const std::string &id, int *pKey, void *ppData) {
     bool b = true;
     node *pNode = static_cast<node *>(mapping.getPointer(id, &b));
@@ -130,6 +135,7 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     return 0;
 }
 
+// Percolates node up to preserve the heap order property
 void heap::percolateUp(int currentPos) {
     int parent = 0;
     node temp = this->data.at(currentPos);
@@ -161,6 +167,7 @@ void heap::percolateUp(int currentPos) {
             &(this->data.at(currentPos)));
 }
 
+// Percolates node down to preserve the heap order property
 void heap::percolateDown(int currentPos) {
     int child = 0;
     node temp = this->data.at(currentPos);
@@ -200,6 +207,7 @@ void heap::percolateDown(int currentPos) {
             &(this->data.at(currentPos)));
 }
 
+// Gets index position of given node
 int heap::getPos(node *pNode) {
     int pos = pNode - &(this->data)[0];
     return pos;
