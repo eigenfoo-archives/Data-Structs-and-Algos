@@ -18,7 +18,7 @@ heap::heap(int capacity) {
     empty.pData = nullptr;
 
     this->data.resize(capacity+1, empty);
-    mapping = HashTable(2*capacity);
+    mapping = hashTable(2*capacity);
 }
 
 // Inserts a node into the heap

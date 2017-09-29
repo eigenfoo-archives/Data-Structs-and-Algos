@@ -9,12 +9,12 @@
 #include "hash.h"
 
 // Hash table constructor.
-HashTable::HashTable(int size) {
+hashTable::hashTable(int size) {
     int tableSize = getPrime(size);
     this->capacity = tableSize;
     this->filled = 0;
 
-    HashItem empty;
+    hashItem empty;
     empty.key = "";
     empty.isOccupied = false;
     empty.isDeleted = false;
@@ -25,7 +25,7 @@ HashTable::HashTable(int size) {
 
 // Insert an item into the hash table. Code from findPos is almost duplicated,
 // so as to avoid a possibly quadratic-time member function
-int HashTable::insert(const std::string &key, void *pv) {
+int hashTable::insert(const std::string &key, void *pv) {
     int currentPos = hash(key) % this->capacity;
 
     // Terminates either at the next non-occupied element,
@@ -43,7 +43,7 @@ int HashTable::insert(const std::string &key, void *pv) {
         return 1;
     }
     else {
-        HashItem &item = this->data.at(currentPos);
+        hashItem &item = this->data.at(currentPos);
         item.key = key;
         item.isOccupied = true;
         item.isDeleted = false;
@@ -61,7 +61,7 @@ int HashTable::insert(const std::string &key, void *pv) {
 }
 
 // Check if the hash table contains an item.
-bool HashTable::contains(const std::string &key) {
+bool hashTable::contains(const std::string &key) {
     if (this->findPos(key) == -1) {
         return false;
     }
@@ -70,7 +70,7 @@ bool HashTable::contains(const std::string &key) {
 }
 
 // Get the pointer associated with a certain key.
-void * HashTable::getPointer(const std::string &key, bool *b) {
+void * hashTable::getPointer(const std::string &key, bool *b) {
     int pos = this->findPos(key);
 
     if (pos == -1) {
@@ -89,7 +89,7 @@ void * HashTable::getPointer(const std::string &key, bool *b) {
 }
 
 // Changes the pointer associated with a certain key.
-int HashTable::setPointer(const std::string &key, void *pv) {
+int hashTable::setPointer(const std::string &key, void *pv) {
     int pos = this->findPos(key);
 
     if (pos == -1) {
@@ -103,7 +103,7 @@ int HashTable::setPointer(const std::string &key, void *pv) {
 }
 
 // Lazily deletes an entry from the hash table.
-bool HashTable::remove(const std::string &key) {
+bool hashTable::remove(const std::string &key) {
     int pos = this->findPos(key);
 
     if (pos == -1) {
@@ -116,7 +116,7 @@ bool HashTable::remove(const std::string &key) {
 
 // Fowler-Noll-Vo hash function
 // https://www.programmingalgorithms.com/algorithm/fnv-hash?lang=C%2B%2B
-unsigned int HashTable::hash(const std::string &key) {
+unsigned int hashTable::hash(const std::string &key) {
     const unsigned int fnv_prime = 0x811C9DC5;
     unsigned int hash = 0;
     unsigned int i = 0;
@@ -132,7 +132,7 @@ unsigned int HashTable::hash(const std::string &key) {
 
 // Member function to find the position of a certain key in a hash table.
 // Used by several public member functions.
-int HashTable::findPos(const std::string &key) {
+int hashTable::findPos(const std::string &key) {
     int currentPos = hash(key) % this->capacity;
 
     // Terminates either at the next non-occupied element,
@@ -154,7 +154,7 @@ int HashTable::findPos(const std::string &key) {
 }
 
 // Rehashes the hash table.
-bool HashTable::rehash() {
+bool hashTable::rehash() {
     int oldCapacity = this->capacity;
     this->capacity = this->getPrime(2*oldCapacity);
 
@@ -163,7 +163,7 @@ bool HashTable::rehash() {
         return false;
     }
 
-    std::vector<HashItem> dataCopy = this->data;
+    std::vector<hashItem> dataCopy = this->data;
     this->data.resize(this->capacity);
 
     // If memory allocation does not proceed as expected, failure.
@@ -171,10 +171,10 @@ bool HashTable::rehash() {
         return false;
     }
 
-    // Set all elements of data to an empty HashItem std::vector::resize would
-    // merely initialize the _new_ items to an empty HashItem
+    // Set all elements of data to an empty hashItem std::vector::resize would
+    // merely initialize the _new_ items to an empty hashItem
     for (int i = 0; i < this->capacity; i++) {
-        HashItem &item = this->data.at(i);
+        hashItem &item = this->data.at(i);
         item.key = "";
         item.isOccupied = false;
         item.isDeleted = false;
@@ -184,7 +184,7 @@ bool HashTable::rehash() {
     this->filled = 0;
 
     for (int i = 0; i < oldCapacity; i++) {
-        HashItem temp = dataCopy.at(i);
+        hashItem temp = dataCopy.at(i);
 
         if (temp.isOccupied && !temp.isDeleted) {
             this->insert(temp.key, temp.pv);
@@ -197,7 +197,7 @@ bool HashTable::rehash() {
 // Returns a prime number larger than the number fed in.
 // Used by the rehash member function.
 // http://planetmath.org/sites/default/files/texpdf/33327.pdf
-int HashTable::getPrime(int size) {
+int hashTable::getPrime(int size) {
     const static std::vector<int> primes = {
         53, 97, 193, 389, 769, 1543, 3079, 6151, 12289, 24593, 49157, 98317,
         196613, 393241, 786433, 1572869, 3145739, 16291469, 2582917, 25165843,

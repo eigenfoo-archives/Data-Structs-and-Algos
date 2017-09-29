@@ -85,7 +85,7 @@ class heap {
         int size;                  // Current number of items in heap
 
         std::vector<node> data;    // The actual binary heap
-        HashTable mapping;         // Maps ids to node pointers
+        hashTable mapping;         // Maps ids to node pointers
 
         void percolateUp(int currentPos);
         void percolateDown(int currentPos);
