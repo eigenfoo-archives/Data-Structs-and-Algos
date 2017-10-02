@@ -115,16 +115,18 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
         ppData = pNode->pData;
     }
 
+    int oldKey = pNode->key;
+
     *pNode = this->data.at(this->size);
     this->size--;
 
-    int pos = getPos(pNode);
-    if (pNode->key > this->data.at(2*pos).key
-            || pNode->key > this->data.at(2*pos+1).key) {
-        this->percolateDown(pos);
+    int newKey = pNode->key;
+
+    if (newKey > oldKey) {
+        this->percolateDown(getPos(pNode));
     }
     else {
-        this->percolateUp(pos);
+        this->percolateUp(getPos(pNode));
     }
 
     this->mapping.remove(id);
