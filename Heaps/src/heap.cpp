@@ -115,10 +115,7 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
         ppData = pNode->pData;
     }
 
-    node lastNode = this->data.at(this->size);
-    pNode->id = lastNode.id;
-    pNode->key = lastNode.key;
-    pNode->pData = lastNode.pData;
+    *pNode = this->data.at(this->size);
     this->size--;
 
     int pos = getPos(pNode);
