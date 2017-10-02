@@ -41,7 +41,7 @@ int heap::insert(const std::string &id, int key, void *pv) {
 
     node *ptr = &(this->data.at(size));
     mapping.insert(id, ptr);
-    percolateUp(getPos(ptr));
+    this->percolateUp(getPos(ptr));
 
     return 0;
 }
@@ -91,7 +91,7 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
 
     this->data.at(1) = this->data.at(this->size);
     this->size--;
-    percolateDown(1);
+    this->percolateDown(1);
 
     this->mapping.remove(minNode.id);
 
@@ -124,10 +124,10 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     int pos = getPos(pNode);
     if (pNode->key > this->data.at(2*pos).key
             || pNode->key > this->data.at(2*pos+1).key) {
-        percolateUp(getPos(pNode));
+        this->percolateDown(pos);
     }
     else {
-        percolateDown(getPos(pNode));
+        this->percolateUp(pos);
     }
 
     this->mapping.remove(id);
