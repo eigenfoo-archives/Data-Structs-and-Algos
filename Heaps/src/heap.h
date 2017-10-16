@@ -43,6 +43,7 @@ class heap {
         //
         int setKey(const std::string &id, int key);
 
+        //
         // deleteMin - return the data associated with the smallest
         // key and delete that node from the binary heap
         //
@@ -59,6 +60,7 @@ class heap {
         int deleteMin(std::string *pId = NULL, int *pKey = NULL,
                 void *ppData = NULL);
 
+        //
         // remove - delete the node with the specified id from the
         // binary heap
         //
