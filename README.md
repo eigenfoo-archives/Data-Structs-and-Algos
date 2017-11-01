@@ -24,5 +24,7 @@ A continuation of ECE 264, also with an emphasis on practical implementation iss
 
 * Assignment 1: Creating a spell checker using hash tables (`Hash-Tables`
   directory)
-* Assignment 2: Implementing a binary heap that utilizes a hash table (from
-  Assignment 1) (`Heaps` directory)
+* Assignment 2: Implementing a binary heap that utilizes a hash table from
+  Assignment 1 (`Heaps` directory)
+* Assignment 3: Implementing Dijkstra's algorithm using the hash table and
+  binary heap from Assignments 1 and 2 (`Dijkstra` directory)
