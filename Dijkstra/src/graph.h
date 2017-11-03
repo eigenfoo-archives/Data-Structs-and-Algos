@@ -32,7 +32,6 @@ class graph {
 
         std::list<node> graphNodes;
         hashTable nodeHash;
-        heap edgeHeap;
 };
 
 #endif // GRAPH_H
