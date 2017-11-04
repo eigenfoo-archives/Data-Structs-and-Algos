@@ -26,7 +26,8 @@ class graph {
         };
 
         struct edge {
-            node *dest;
+            node *from;
+            node *to;
             int cost;
         };
 

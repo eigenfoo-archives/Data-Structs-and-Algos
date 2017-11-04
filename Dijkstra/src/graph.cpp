@@ -38,7 +38,7 @@ void graph::loadGraph(std::string fileName) {
                     &inHashTable));
         pVertex2 = static_cast<node *>(this->nodeHash.getPointer(vertex2,
                     &inHashTable));
-        edge newEdge = {.dest = pVertex2,
+        edge newEdge = {.to = pVertex2,
                         .cost = stoi(cost)};
         pVertex1->adjacency.push_back(newEdge);
     }
@@ -51,21 +51,26 @@ void graph::dijkstra(std::string startingVertex) {
         = static_cast<node *>(this->nodeHash.getPointer(startingVertex));
     pStartingVertex->d = 0;
 
+    // Build heap of edges
     for (edge startingEdge : pStartingVertex->adjacency) {
-        edgeHeap.insert(startingEdge.dest->name, startingEdge.cost, &startingEdge);
+        edgeHeap.insert(startingEdge.to->name, startingEdge.cost, &startingEdge);
     }
 
-    std::string *pId;
-    int *pKey;
-    node *pData;
-    void *ppData;
+    std::string *pName;
+    int *pCost;
+    node *pNode;
+    void *ppNode;
 
-    while (!edgeHeap.deleteMin(pId, pKey, ppData)) {
-        pData = static_cast<node *>(ppData); 
-        pData->known = true;
+    while (!edgeHeap.deleteMin(pName, pCost, ppNode)) {
+        pNode = static_cast<node *>(ppNode); 
+        pNode->known = true;
 
-        for (edge adjacentEdge : pData->adjacency) {
-            // TODO finish Dijkstra main loop
+        for (edge outgoingEdge : pNode->adjacency) {
+            if (!outgoingEdge.to->known) {
+                if (outgoingEdge.from->d + *pCost < pNode->d) {
+
+                }
+            }
         }
     }
 }
