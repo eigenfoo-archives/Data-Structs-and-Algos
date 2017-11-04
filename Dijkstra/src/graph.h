@@ -1,11 +1,11 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <string>
-#include <list>
-#include <fstream>
-#include <sstream>
 #include <climits>
+#include <fstream>
+#include <list>
+#include <sstream>
+#include <string>
 #include "hash.h"
 #include "heap.h"
 
@@ -15,6 +15,9 @@ class graph {
     public:
         void loadGraph(std::string fileName);
         void dijkstra(std::string startingVertex);
+        void outputDijkstra(std::string startingVertex,
+                std::string fileName);
+        bool isValidVertex(std::string vertexName);
 
     private:
         struct node {
@@ -26,8 +29,7 @@ class graph {
         };
 
         struct edge {
-            node *from;
-            node *to;
+            node *dest;
             int cost;
         };
 
