@@ -19,7 +19,7 @@ int main() {
         std::cout << "Enter a valid vertex id for the starting vertex: ";
         std::cin >> vertexName;
         if (theGraph.isValidVertex(vertexName)) {
-            break;
+            validVertex = true;
         }
     }
 

@@ -56,7 +56,7 @@ void graph::dijkstra(std::string startingVertex) {
     heap edgeHeap(graphNodes.size());
     for (edge startingEdge : pStartingVertex->adjacency) {
         edgeHeap.insert(startingEdge.dest->name, startingEdge.cost,
-                &startingEdge.dest);
+                startingEdge.dest);
     }
 
     std::string *pName = nullptr; // name of edge's dest
