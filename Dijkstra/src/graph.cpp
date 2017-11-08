@@ -51,7 +51,7 @@ void graph::dijkstra(std::string startingVertex) {
     pStartingVertex->p = pStartingVertex;
 
     // Build heap of unknown vertices
-    heap unknownHeap(graphNodes.size());
+    heap unknownHeap(this->graphNodes.size());
     for (node unknownNode : this->graphNodes) {
         unknownHeap.insert(unknownNode.name, unknownNode.d); //, &unknownNode);
     }
@@ -84,25 +84,25 @@ void graph::outputDijkstra(std::string startingVertex, std::string fileName) {
     node tmp = *this->graphNodes.begin();
 
     for (node graphNode : this->graphNodes) {
-        line = graphNode.name;
-        line += ": ";
-
-        if (graphNode.p != nullptr) {
-            line += std::to_string(graphNode.d);
-            line += " [";
-
-            tmp = graphNode;
-            path = graphNode.name; 
-            while (tmp.name != startingVertex) {
+        tmp = graphNode;
+        path = graphNode.name; 
+        while (tmp.name != startingVertex) {
+            if (tmp.p != nullptr) {
                 tmp = *tmp.p;
                 path = tmp.name + ", " + path;
             }
+            else {
+                path = "NO PATH\n";
+                break;
+            }
+        }
 
-            line += path;
-            line += "]\n";
+        if (path != "NO PATH\n") {
+            line = graphNode.name + ": " + std::to_string(graphNode.d)
+                + " [" + path + "]\n";
         }
         else {
-            line += "NO PATH\n";
+            line = graphNode.name + ": " + path;
         }
 
         outfile << line;
