@@ -12,7 +12,7 @@ void graph::loadGraph(std::string fileName) {
         std::istringstream iss(line);
         iss >> vertex1 >> vertex2 >> cost;
 
-        // If this is the first time we're seeing either node, push them o.dest
+        // If this is the first time we're seeing either node, push them onto
         // the list and hash table
         if (!this->nodeHash.contains(vertex1)) {
             node newNode = {.name = vertex1,
@@ -21,7 +21,7 @@ void graph::loadGraph(std::string fileName) {
                             .known = false,
                             .adjacency = {}};
             this->graphNodes.push_back(newNode);
-            this->nodeHash.insert(vertex1, &newNode); // FIXME is it &newNode?
+            this->nodeHash.insert(vertex1, &this->graphNodes.back());
         }
 
         if (!this->nodeHash.contains(vertex2)) {
@@ -31,7 +31,7 @@ void graph::loadGraph(std::string fileName) {
                             .known = false,
                             .adjacency = {}};
             this->graphNodes.push_back(newNode);
-            this->nodeHash.insert(vertex2, &newNode); // FIXME is it &newNode?
+            this->nodeHash.insert(vertex2, &this->graphNodes.back());
         }
 
         // Add the edge.dest vertex1's adjacency list
@@ -59,20 +59,18 @@ void graph::dijkstra(std::string startingVertex) {
                 startingEdge.dest);
     }
 
-    std::string *pName = nullptr; // name of edge's dest
-    int *pCost = nullptr;         // cost of edge
-    node *pNode = nullptr;        // pointer to edge's dest
-    void *ppNode = nullptr;       // pointer to pointer to edge's dest
+    std::string name = "";      // name of edge's dest
+    int cost = 0;               // cost of edge
+    node tempNode;
 
-    while (!edgeHeap.deleteMin(pName, pCost, ppNode)) {
-        pNode = static_cast<node *>(ppNode); 
-        pNode->known = true;
+    while (!edgeHeap.deleteMin(&name, &cost, &tempNode)) {
+        tempNode.known = true;
 
-        for (edge outgoingEdge : pNode->adjacency) {
+        for (edge outgoingEdge : tempNode.adjacency) {
             if (!outgoingEdge.dest->known &&
-                    pNode->d + outgoingEdge.cost < outgoingEdge.dest->d) {
-                outgoingEdge.dest->d = pNode->d + outgoingEdge.cost;
-                outgoingEdge.dest->p = pNode;
+                    tempNode.d + outgoingEdge.cost < outgoingEdge.dest->d) {
+                outgoingEdge.dest->d = tempNode.d + outgoingEdge.cost;
+                outgoingEdge.dest->p = &tempNode;
             }
         }
     }
