@@ -2,6 +2,7 @@
 #include <iostream>
 #include "graph.h"
 
+// Function prototypes for timing
 std::chrono::time_point<std::chrono::system_clock> startTimer();
 float stopTimer(std::chrono::time_point<std::chrono::system_clock> startTime);
 
