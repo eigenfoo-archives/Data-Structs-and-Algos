@@ -6,7 +6,6 @@ void graph::loadGraph(std::string fileName) {
     std::string line;
     std::string vertex1, vertex2, cost;
     node *pVertex1, *pVertex2;
-    bool inHashTable;
     
     while (std::getline(infile, line)) {
         std::istringstream iss(line);
@@ -35,10 +34,8 @@ void graph::loadGraph(std::string fileName) {
         }
 
         // Add the edge.dest vertex1's adjacency list
-        pVertex1 = static_cast<node *>(this->nodeHash.getPointer(vertex1,
-                    &inHashTable));
-        pVertex2 = static_cast<node *>(this->nodeHash.getPointer(vertex2,
-                    &inHashTable));
+        pVertex1 = static_cast<node *>(this->nodeHash.getPointer(vertex1));
+        pVertex2 = static_cast<node *>(this->nodeHash.getPointer(vertex2));
         edge newEdge = {.dest = pVertex2,
                         .cost = stoi(cost)};
         pVertex1->adjacency.push_back(newEdge);
@@ -51,32 +48,36 @@ void graph::dijkstra(std::string startingVertex) {
     node *pStartingVertex
         = static_cast<node *>(this->nodeHash.getPointer(startingVertex));
     pStartingVertex->d = 0;
+    pStartingVertex->p = pStartingVertex;
 
-    // Build heap of edges
-    heap edgeHeap(graphNodes.size());
-    for (edge startingEdge : pStartingVertex->adjacency) {
-        edgeHeap.insert(startingEdge.dest->name, startingEdge.cost,
-                startingEdge.dest);
+    // Build heap of unknown vertices
+    heap unknownHeap(graphNodes.size());
+    for (node unknownNode : this->graphNodes) {
+        unknownHeap.insert(unknownNode.name, unknownNode.d); //, &unknownNode);
     }
 
-    std::string name = "";      // name of edge's dest
-    int cost = 0;               // cost of edge
-    node tempNode;
+    std::string currentName = "";
+    int currentCost = 0;
+    node *pCurrentNode = nullptr;
 
-    while (!edgeHeap.deleteMin(&name, &cost, &tempNode)) {
-        tempNode.known = true;
+    while (!unknownHeap.deleteMin(&currentName, &currentCost)) { // , &pCurrentNode)) {
+        pCurrentNode = static_cast<node *>(this->nodeHash.getPointer(currentName));
+        pCurrentNode->known = true;
 
-        for (edge outgoingEdge : tempNode.adjacency) {
+        for (edge outgoingEdge : pCurrentNode->adjacency) {
             if (!outgoingEdge.dest->known &&
-                    tempNode.d + outgoingEdge.cost < outgoingEdge.dest->d) {
-                outgoingEdge.dest->d = tempNode.d + outgoingEdge.cost;
-                outgoingEdge.dest->p = &tempNode;
+                    pCurrentNode->d + outgoingEdge.cost < outgoingEdge.dest->d) {
+                outgoingEdge.dest->d = pCurrentNode->d + outgoingEdge.cost;
+                unknownHeap.setKey(outgoingEdge.dest->name,
+                        pCurrentNode->d + outgoingEdge.cost);
+                outgoingEdge.dest->p = pCurrentNode;
             }
         }
     }
 }
 
 void graph::outputDijkstra(std::string startingVertex, std::string fileName) {
+
     std::ofstream outfile(fileName);
     std::string line = "";
     std::string path = "";
@@ -90,11 +91,11 @@ void graph::outputDijkstra(std::string startingVertex, std::string fileName) {
             line += std::to_string(graphNode.d);
             line += " [";
 
-            path = "";
             tmp = graphNode;
+            path = graphNode.name; 
             while (tmp.name != startingVertex) {
-                path = tmp.name + ", " + path;
                 tmp = *tmp.p;
+                path = tmp.name + ", " + path;
             }
 
             line += path;
