@@ -62,16 +62,16 @@ void graph::dijkstra(std::string startingVertex) {
 
     // Build heap of unknown vertices
     heap unknownHeap(this->graphNodes.size());
-    for (node unknownNode : this->graphNodes) {
-        unknownHeap.insert(unknownNode.name, unknownNode.d); //, &unknownNode);
+    for (std::list<node>::iterator it = this->graphNodes.begin();
+            it != this->graphNodes.end(); it++) {
+        unknownHeap.insert(it->name, it->d, &(*it));
     }
 
     std::string currentName = "";
     int currentCost = 0;
     node *pCurrentNode = nullptr;
 
-    while (!unknownHeap.deleteMin(&currentName, &currentCost)) { // , &pCurrentNode)) {
-        pCurrentNode = static_cast<node *>(this->nodeHash.getPointer(currentName));
+    while (!unknownHeap.deleteMin(&currentName, &currentCost, &pCurrentNode)) {
         pCurrentNode->known = true;
 
         for (edge outgoingEdge : pCurrentNode->adjacency) {

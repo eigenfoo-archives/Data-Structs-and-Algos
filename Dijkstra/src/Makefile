@@ -1,7 +1,7 @@
 .PHONY: clean debug run
 
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -Wextra
+CXXFLAGS = -std=c++11 -Wall
 LDFLAGS =
 
 SOURCES = hash.cpp heap.cpp graph.cpp dijkstra.cpp
