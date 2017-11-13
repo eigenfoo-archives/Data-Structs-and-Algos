@@ -7,7 +7,11 @@ Faculty Website:
 http://faculty.cooper.edu/sable2/courses/spring2017/ece264/
 
 Course Description:
-An introduction to fundamental data structures and algorithms, with an emphasis on practical implementation issues and good programming methodology. Topics include lists, stacks, queues, trees, hash tables and sorting algorithms. Also an introduction to analysis of algorithms with big-O notation. Assignments include programming projects and problem sets.
+An introduction to fundamental data structures and algorithms, with an emphasis
+on practical implementation issues and good programming methodology. Topics
+include lists, stacks, queues, trees, hash tables and sorting algorithms. Also
+an introduction to analysis of algorithms with big-O notation. Assignments
+include programming projects and problem sets.
 
 * Assignment 1: Implementing lists, stacks and queues (`Stacks-and-Queues`
   directory)
@@ -20,7 +24,11 @@ Faculty Website:
 http://faculty.cooper.edu/sable2/courses/fall2017/ece365/
 
 Course Description:
-A continuation of ECE 264, also with an emphasis on practical implementation issues and good programming methodology. Topics include graphs, graph-related algorithms and dynamic programming techniques. Also an introduction to some advanced topics such as Turing machines, computability and NP-complete systems. Assignments include programming projects and problem sets.
+A continuation of ECE 264, also with an emphasis on practical implementation
+issues and good programming methodology. Topics include graphs, graph-related
+algorithms and dynamic programming techniques. Also an introduction to some
+advanced topics such as Turing machines, computability and NP-complete systems.
+Assignments include programming projects and problem sets.
 
 * Assignment 1: Creating a spell checker using hash tables (`Hash-Tables`
   directory)
