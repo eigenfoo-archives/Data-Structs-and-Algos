@@ -42,7 +42,7 @@ void graph::loadGraph(std::string fileName) {
             this->nodeHash.insert(vertex2, &this->graphNodes.back());
         }
 
-        // Add the edge.dest vertex1's adjacency list
+        // Add edge.dest to vertex1's adjacency list
         pVertex1 = static_cast<node *>(this->nodeHash.getPointer(vertex1));
         pVertex2 = static_cast<node *>(this->nodeHash.getPointer(vertex2));
         edge newEdge = {.dest = pVertex2,
