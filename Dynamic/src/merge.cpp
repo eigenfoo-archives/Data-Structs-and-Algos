@@ -41,26 +41,28 @@ int main() {
 }
 
 bool checkCell(int pos1, int pos2) {
-    // If we've exhasuted str1 and str2, return true
-    if (pos1 == str1.length() && pos2 == str2.length()) {
-        return true;
-    }
     // If we've fallen off the edge of the array or if we've previously
     // memoized false, return false
-    else if (pos1 > str1.length() || pos2 > str2.length()
-            || !memoArray[pos2][pos1]) {
+    if (pos1 > str1.length() || pos2 > str2.length()) {
+        return false;
+    }
+    // If we've exhasuted str1 and str2, return true
+    else if (pos1 == str1.length() && pos2 == str2.length()) {
+        return true;
+    }
+    else if (!memoArray[pos2][pos1]) {
         return false;
     }
     // If str3's next char is str1's next char and checking the cell one to the
     // right returns true, uppercase it return true
-    else if (str3.at(pos1+pos2) == str1.at(pos1)
+    else if (str3[pos1+pos2] == str1[pos1]
             && checkCell(pos1+1, pos2)) {
-        str3.at(pos1+pos2) = toupper(str3.at(pos1+pos2));
+        str3[pos1+pos2] = toupper(str3[pos1+pos2]);
         return true;
     }
     // If str3's next char is str1's next char and checking the cell one down
     // returns true, return true
-    else if (str3.at(pos1+pos2) == str2.at(pos2)
+    else if (str3[pos1+pos2] == str2[pos2]
             && checkCell(pos1, pos2+1)) {
         return true;
     }
