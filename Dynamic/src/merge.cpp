@@ -23,10 +23,11 @@ int main() {
 
     while (getline(infile, str1) && getline(infile, str2)
             && getline(infile, str3)) {
-        // Reset memoArray
+        // Reset memoArray to true
         memset(memoArray, true, sizeof(memoArray));
 
-        if (checkCell(0, 0)) {
+        if (str1.length() + str2.length() == str3.length()
+                && checkCell(0, 0)) {
             outfile << str3 << endl;
         }
         else {
