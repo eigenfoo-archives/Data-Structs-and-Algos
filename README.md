@@ -36,3 +36,5 @@ Assignments include programming projects and problem sets.
   Assignment 1 (`Heaps` directory)
 * Assignment 3: Implementing Dijkstra's algorithm using the hash table and
   binary heap from Assignments 1 and 2 (`Dijkstra` directory)
+* Assignment 4: A dynamic programming problem from the 1998 ACM programming
+  contest (`Dynamic` directory)
